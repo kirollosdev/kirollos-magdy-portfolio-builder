@@ -1,0 +1,29 @@
+/* ==============================================================================
+   Kirollos Magdy Portfolio Builder
+   Build: sass --no-source-map --style=compressed assets/scss/style.scss assets/css/style.css
+          rtlcss assets/css/style.css assets/css/style-rtl.css
+============================================================================== */
+
+/* [ Portfolio Pin Spacer ] */
+@import './_portfolio-pin-spacer.scss';
+
+/* [ Portfolio Filter List ] */
+@import './_portfolio-filter-list.scss';
+
+/* [ Portfolio Slider ] */
+@import './_portfolio_slider.scss';
+
+/* [ Portfolio Horizontal Slider ] */
+@import './_portfolio_horizontal_slider.scss';
+
+/* [ Works Slider ] */
+@import './_works_slider.scss';
+
+/* [ Works Tabs Mini ] */
+@import './_works_tabs_mini.scss';
+
+/* [ Dynamic Post Meta ] */
+@import './_dynamic_post_meta.scss';
+
+/* [ Post Image ] */
+@import './_post_image.scss';

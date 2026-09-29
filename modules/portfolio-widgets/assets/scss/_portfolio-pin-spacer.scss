@@ -1,0 +1,383 @@
+.kmpw-portfolio-pin-spacer {
+    position: relative;
+
+    .tc-card-item {
+        position: relative;
+        overflow: hidden;
+        background: #fff;
+        transition: transform 0.3s ease;
+        min-height: 100vh;
+        max-height: 100vh;
+
+        // Tablet & Mobile: Remove min-height and add spacing
+        @media screen and (max-width: 1024px) {
+            min-height: auto !important;
+            max-height: none !important;
+            margin-bottom: 30px !important;
+
+            // &:last-child {
+            //     margin-bottom: 0 !important;
+            // }
+        }
+
+        .card-image {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+
+            img {
+                width: 100%;
+                display: block;
+                transition: transform 0.3s ease;
+            }
+        }
+
+        .portfolio-wrapper {
+            width: 100%;
+            position: absolute;
+            top: 98px;
+            left: 0;
+            z-index: 2;
+
+            @media screen and (max-width: 768px) {
+                top: unset !important;
+                bottom: 40px !important;
+            }
+        }
+
+        .portfolio-content {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 32px;
+
+            @media (max-width: 1023px) {
+                flex-direction: row;
+                align-items: center;
+                gap: 12px !important;
+                flex-wrap: wrap;
+            }
+        }
+
+        .portfolio-categories {
+            color: #FFF !important;
+            font-family: Comfortaa, sans-serif;
+            font-size: 24px;
+            font-style: normal;
+            font-weight: 300;
+            line-height: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            min-width: fit-content;
+            margin: 0;
+
+            @media (max-width: 1023px) {
+                font-size: 16px;
+                line-height: 29px;
+            }
+
+            @media (max-width: 768px) {
+                font-size: 18px;
+                line-height: 24px;
+            }
+        }
+
+        .portfolio-category-item {
+            display: block;
+            white-space: nowrap;
+        }
+
+        .portfolio-divider {
+            flex-shrink: 0;
+            width: 229px;
+            background: #fff;
+            height: 2px;
+
+            @media (max-width: 1023px) {
+                display: none;
+            }
+        }
+
+        .portfolio-title {
+            color: #FFF;
+            font-family: Comfortaa, sans-serif;
+            font-size: 32px;
+            font-weight: 400;
+            line-height: 1.2em;
+            margin: 0;
+
+            @media (max-width: 1023px) {
+                width: 100%;
+            }
+
+            @media (max-width: 768px) {
+                font-size: 28px !important;
+            }
+
+            a {
+                color: inherit;
+                text-decoration: none;
+                transition: opacity 0.3s ease;
+
+                &:hover {
+                    opacity: 0.8;
+                }
+            }
+        }
+
+        &:hover {
+            .card-image img {
+                transform: scale(1.05);
+            }
+        }
+
+        .tc-card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.45);
+            pointer-events: none;
+            z-index: 1;
+            transition: opacity 0.3s ease;
+            opacity: 1;
+        }
+
+        &:hover .tc-card-overlay {
+            opacity: 0.6;
+        }
+    }
+
+    // Pin animation styles - للـ Desktop فقط
+    &.tc-cards-animation {
+        .tc-card-item {
+            margin-bottom: 30px;
+
+            // &:last-child {
+            //     margin-bottom: 0;
+            // }
+
+            // Desktop GSAP pin: no gap between cards — margin is NOT part of
+            // offsetHeight, so ScrollTrigger "end" distance stays in sync with layout.
+            @media screen and (min-width: 1025px) {
+                margin-bottom: 0 !important;
+            }
+
+            // Each next card paints above the previous while scrolling (pin stack)
+            @media screen and (min-width: 1025px) {
+                &:nth-child(1) {
+                    z-index: 1;
+                }
+                &:nth-child(2) {
+                    z-index: 2;
+                }
+                &:nth-child(3) {
+                    z-index: 3;
+                }
+                &:nth-child(4) {
+                    z-index: 4;
+                }
+                &:nth-child(5) {
+                    z-index: 5;
+                }
+                &:nth-child(6) {
+                    z-index: 6;
+                }
+                &:nth-child(7) {
+                    z-index: 7;
+                }
+                &:nth-child(8) {
+                    z-index: 8;
+                }
+                &:nth-child(9) {
+                    z-index: 9;
+                }
+                &:nth-child(10) {
+                    z-index: 10;
+                }
+            }
+
+            // Override for tablets & mobiles
+            @media screen and (max-width: 1024px) {
+                margin-bottom: 30px !important;
+            }
+        }
+
+        // Mobile/Tablet Layout - مسافات بين الكروت بدون انيميشن
+        &.tc-mobile-tablet-layout {
+            .tc-card-item {
+                min-height: auto !important;
+                max-height: none !important;
+                margin-bottom: 30px !important;
+
+                // &:last-child {
+                //     margin-bottom: 0 !important;
+                // }
+            }
+        }
+    }
+}
+
+// Title + categories (description line) — desktop only; hidden on tablet/phone (matches JS breakpoint 1025px)
+@media screen and (max-width: 1024px) {
+    .kmpw-portfolio-pin-spacer .portfolio-wrapper.kmpw-pin-spacer-text-desktop-only {
+        display: none !important;
+    }
+}
+
+// Additional detection for touch devices
+// This ensures tablets like iPad get the mobile layout even in landscape
+@media (hover: none) and (pointer: coarse) {
+    .kmpw-portfolio-pin-spacer {
+        .tc-card-item {
+            min-height: auto !important;
+            max-height: none !important;
+            margin-bottom: 30px !important;
+
+            // &:last-child {
+            //     margin-bottom: 0 !important;
+            // }
+        }
+    }
+}
+
+// Responsive layout for mobile/tablet
+@media screen and (max-width: 1024px) {
+    .kmpw-portfolio-pin-spacer {
+        display: flex;
+        flex-direction: column;
+        gap: 0; // Remove gap since we're using margin-bottom
+
+        .tc-card-item {
+            margin-bottom: 30px !important;
+
+            // &:last-child {
+            //     margin-bottom: 0 !important;
+            // }
+
+            .portfolio-wrapper {
+                position: relative;
+            }
+        }
+    }
+}
+
+/* =====================================================
+   Portfolio Pin Spacer — Mobile & Tablet Fix
+   أضف الكود ده في آخر ملف style.css
+   ===================================================== */
+
+@media screen and (max-width: 1024px) {
+
+    /* الـ wrapper يبقى block عادي */
+    .kmpw-portfolio-pin-spacer {
+        display: block !important;
+        position: relative;
+    }
+
+    /* كل كارت يبقى sticky ويملأ الشاشة كاملة */
+    .kmpw-portfolio-pin-spacer .tc-card-item {
+        position: sticky !important;
+        top: 0 !important;
+        min-height: 400px !important;
+        max-height: 400px !important;
+        margin-bottom: 0 !important;
+        overflow: hidden !important;
+    }
+
+    /* كل كارت يطلع فوق اللي قبله أثناء السكرول */
+    .kmpw-portfolio-pin-spacer .tc-card-item:nth-child(1) {
+        z-index: 1;
+    }
+
+    .kmpw-portfolio-pin-spacer .tc-card-item:nth-child(2) {
+        z-index: 2;
+    }
+
+    .kmpw-portfolio-pin-spacer .tc-card-item:nth-child(3) {
+        z-index: 3;
+    }
+
+    .kmpw-portfolio-pin-spacer .tc-card-item:nth-child(4) {
+        z-index: 4;
+    }
+
+    .kmpw-portfolio-pin-spacer .tc-card-item:nth-child(5) {
+        z-index: 5;
+    }
+
+    .kmpw-portfolio-pin-spacer .tc-card-item:nth-child(6) {
+        z-index: 6;
+    }
+
+    .kmpw-portfolio-pin-spacer .tc-card-item:nth-child(7) {
+        z-index: 7;
+    }
+
+    .kmpw-portfolio-pin-spacer .tc-card-item:nth-child(8) {
+        z-index: 8;
+    }
+
+    .kmpw-portfolio-pin-spacer .tc-card-item:nth-child(9) {
+        z-index: 9;
+    }
+
+    .kmpw-portfolio-pin-spacer .tc-card-item:nth-child(10) {
+        z-index: 10;
+    }
+
+    /* الصورة تملأ الكارت كله */
+    .kmpw-portfolio-pin-spacer .tc-card-item .card-image {
+        height: 100svh !important;
+        width: 100% !important;
+    }
+
+    .kmpw-portfolio-pin-spacer .tc-card-item .card-image img {
+        width: 100% !important;
+        height: 450px !important;
+        object-fit: cover !important;
+        object-position: center !important;
+    }
+
+    /* الـ overlay يغطي الكارت كله */
+    .kmpw-portfolio-pin-spacer .tc-card-item .tc-card-overlay {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        z-index: 1 !important;
+    }
+
+    /* الـ text في الأسفل — معطل لما النص يكون desktop-only */
+    .kmpw-portfolio-pin-spacer .tc-card-item .portfolio-wrapper:not(.kmpw-pin-spacer-text-desktop-only) {
+        position: absolute !important;
+        top: unset !important;
+        bottom: 40px !important;
+        left: 0 !important;
+        width: 100% !important;
+        padding: 0 20px !important;
+        z-index: 3 !important;
+    }
+
+    .kmpw-portfolio-pin-spacer .tc-card-item .portfolio-wrapper.kmpw-pin-spacer-text-desktop-only {
+        display: none !important;
+    }
+
+    /* تأكد إن الـ tc-cards-animation مش بيأثر على الـ mobile layout */
+    .kmpw-portfolio-pin-spacer.tc-cards-animation .tc-card-item {
+        margin-bottom: 0 !important;
+    }
+
+    .kmpw-portfolio-pin-spacer.tc-cards-animation.tc-mobile-tablet-layout .tc-card-item {
+        position: sticky !important;
+        top: 0 !important;
+        min-height: 450px !important;
+        max-height: 450px !important;
+        margin-bottom: 0 !important;
+    }
+}

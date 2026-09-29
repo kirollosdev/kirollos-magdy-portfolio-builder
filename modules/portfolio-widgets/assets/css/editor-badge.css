@@ -1,0 +1,28 @@
+/* Panel */
+.elementor-panel .pw-widget-badge::after {
+    content: 'KM';
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 10px;
+    letter-spacing: 0.8px;
+    display: inline-block;
+    background-image: linear-gradient(100deg, #a855f7 0%, #6d28d9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Navigator */
+.elementor-navigator__element__element-type .pw-widget-badge::after {
+    content: 'KM';
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    right: 5px;
+    font-size: 10px;
+    letter-spacing: 0.8px;
+    display: inline-block;
+    background-image: linear-gradient(100deg, #a855f7 0%, #6d28d9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

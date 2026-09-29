@@ -1,0 +1,227 @@
+/**
+ * Animated Heading widget.
+ *
+ * Colours, sizes and timings all come from Elementor controls, so nothing
+ * here hard-codes brand values beyond a sensible fallback.
+ */
+
+.kmpb-ah {
+	margin: 0;
+}
+
+.kmpb-ah__focus {
+	color: var( --kmpb-ah-color, #9b00ff );
+}
+
+/* ---------------------------------------------------------- highlighted */
+
+.kmpb-ah__focus--highlight {
+	position: relative;
+	display: inline-block;
+	white-space: nowrap;
+}
+
+/**
+ * Shape placement.
+ *
+ * One overlay box does not suit every shape: a circle has to surround the
+ * word, an underline has to sit below the baseline, and a strikethrough has to
+ * cross the middle. Each shape declares which it is, and its path is authored
+ * for that box, so the geometry stays correct at any font size or word length.
+ */
+.kmpb-ah__shape {
+	position: absolute;
+	overflow: visible;
+	pointer-events: none;
+}
+
+/* Surrounds the word. */
+.kmpb-ah__shape--wrap {
+	top: 50%;
+	left: 50%;
+	width: 114%;
+	height: 128%;
+	transform: translate( -50%, -50% );
+}
+
+/* Sits under the baseline. Sized in em so it tracks the font size. */
+.kmpb-ah__shape--under {
+	left: 50%;
+	bottom: -0.06em;
+	width: 100%;
+	height: 0.34em;
+	transform: translateX( -50% );
+}
+
+/* Crosses the middle of the word. */
+.kmpb-ah__shape--through {
+	top: 50%;
+	left: 50%;
+	width: 106%;
+	height: 0.3em;
+	transform: translate( -50%, -50% );
+}
+
+.kmpb-ah__shape path {
+	fill: none;
+	stroke: #9b00ff;
+	stroke-width: 8;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	/*
+	 * pathLength normalises every path to 1 unit, so one dash pair draws any
+	 * shape fully regardless of its real length. Without it each path would
+	 * need its own measured dasharray.
+	 */
+	stroke-dasharray: 1;
+	stroke-dashoffset: 1;
+	animation-name: kmpb-ah-draw;
+	animation-duration: 1200ms;
+	animation-timing-function: cubic-bezier( 0.65, 0, 0.35, 1 );
+	animation-fill-mode: forwards;
+	animation-delay: var( --kmpb-ah-delay, 0ms );
+	animation-play-state: paused;
+}
+
+/* The draw only starts once the heading has scrolled into view. */
+.kmpb-ah.is-visible .kmpb-ah__shape path {
+	animation-play-state: running;
+}
+
+@keyframes kmpb-ah-draw {
+	to {
+		stroke-dashoffset: 0;
+	}
+}
+
+/* ---------------------------------------------------------- rotating */
+
+.kmpb-ah__focus--rotate {
+	position: relative;
+	display: inline-block;
+	text-align: left;
+	white-space: nowrap;
+	/* Reserves the width of the longest word so the line does not jump. */
+	vertical-align: bottom;
+}
+
+.kmpb-ah__word {
+	display: inline-block;
+}
+
+/*
+ * Every word is in the markup for no-JS readability. Once JS takes over it
+ * adds .is-ready, which stacks them so only the active one shows.
+ */
+.kmpb-ah__focus--rotate.is-ready .kmpb-ah__word {
+	position: absolute;
+	top: 0;
+	left: 0;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.kmpb-ah__focus--rotate.is-ready .kmpb-ah__word.is-active {
+	position: relative;
+	opacity: 1;
+	pointer-events: auto;
+}
+
+/* fade */
+.kmpb-ah--fade .kmpb-ah__word {
+	transition: opacity 0.5s ease;
+}
+
+/* slide up */
+.kmpb-ah--slide_up .kmpb-ah__word {
+	transform: translateY( 40% );
+	transition: opacity 0.45s ease, transform 0.45s cubic-bezier( 0.22, 1, 0.36, 1 );
+}
+
+.kmpb-ah--slide_up .kmpb-ah__word.is-active {
+	transform: translateY( 0 );
+}
+
+/* slide down */
+.kmpb-ah--slide_down .kmpb-ah__word {
+	transform: translateY( -40% );
+	transition: opacity 0.45s ease, transform 0.45s cubic-bezier( 0.22, 1, 0.36, 1 );
+}
+
+.kmpb-ah--slide_down .kmpb-ah__word.is-active {
+	transform: translateY( 0 );
+}
+
+/* drop in */
+.kmpb-ah--drop_in .kmpb-ah__word {
+	transform: scale( 1.6 );
+	transition: opacity 0.4s ease, transform 0.4s cubic-bezier( 0.34, 1.56, 0.64, 1 );
+}
+
+.kmpb-ah--drop_in .kmpb-ah__word.is-active {
+	transform: scale( 1 );
+}
+
+/* flip */
+.kmpb-ah--flip .kmpb-ah__focus--rotate {
+	perspective: 700px;
+}
+
+.kmpb-ah--flip .kmpb-ah__word {
+	transform: rotateX( 90deg );
+	transform-origin: 50% 50%;
+	transition: opacity 0.4s ease, transform 0.5s cubic-bezier( 0.22, 1, 0.36, 1 );
+}
+
+.kmpb-ah--flip .kmpb-ah__word.is-active {
+	transform: rotateX( 0deg );
+}
+
+/* clip: a bar wipes across as the word changes */
+.kmpb-ah--clip .kmpb-ah__focus--rotate.is-ready {
+	overflow: hidden;
+	border-right: 2px solid currentColor;
+	padding-right: 4px;
+}
+
+.kmpb-ah--clip .kmpb-ah__word {
+	transition: opacity 0.2s ease;
+}
+
+/* typing */
+.kmpb-ah--typing .kmpb-ah__focus--rotate.is-ready .kmpb-ah__word.is-active {
+	/* JS writes the partial text into this element while typing. */
+	white-space: pre;
+}
+
+.kmpb-ah__cursor {
+	display: inline-block;
+	width: 2px;
+	height: 1em;
+	margin-left: 2px;
+	vertical-align: text-bottom;
+	background-color: currentColor;
+	animation: kmpb-ah-blink 1s steps( 2, start ) infinite;
+}
+
+@keyframes kmpb-ah-blink {
+	to {
+		visibility: hidden;
+	}
+}
+
+@media ( prefers-reduced-motion: reduce ) {
+	.kmpb-ah__shape path {
+		stroke-dashoffset: 0;
+		animation: none;
+	}
+
+	.kmpb-ah__word {
+		transition: none !important;
+		transform: none !important;
+	}
+
+	.kmpb-ah__cursor {
+		animation: none;
+	}
+}

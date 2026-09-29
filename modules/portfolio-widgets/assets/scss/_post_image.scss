@@ -1,0 +1,78 @@
+.e-con {
+    &:hover {
+        .elementor-widget-kmpb-post-image>.elementor-widget-container>.kmpw-post-image.selector-type-container {
+
+            &.kmpw-post-image-container-active {
+                .kmpw-post-image-wrapper::after {
+                    display: block;
+                }
+
+                .image-hover-container {
+                    display: block;
+                    opacity: 1;
+                }
+            }
+
+        }
+    }
+}
+
+.kmpw-post-image {
+
+    &.selector-type-image {
+        &:hover {
+            .kmpw-post-image-wrapper::after {
+                display: block;
+            }
+
+            .image-hover-container {
+                display: block;
+                opacity: 1;
+            }
+        }
+    }
+
+    &.clippy-img {
+        img {
+            clip-path: polygon(25% 0, 75% 0, 75% 100%, 25% 100%);
+            opacity: 0;
+            transform: rotate(-7deg) scale(1.3);
+            transition: all 1s ease;
+            transition-delay: 0.2s;
+        }
+
+        &.animated img {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+            opacity: 1;
+            transform: rotate(0) scale(1);
+        }
+    }
+
+    .kmpw-post-image-wrapper::after {
+        content: '';
+        top: 0;
+        left: 0;
+        position: absolute;
+        display: none;
+    }
+
+    .image-hover-container {
+        display: none;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 20;
+        opacity: 0;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+
+        svg {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+        }
+    }
+}

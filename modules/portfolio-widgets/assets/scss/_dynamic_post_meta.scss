@@ -1,0 +1,58 @@
+.kmpw-dynamic-post-meta-text {
+    margin: 0px;
+    padding: 0px;
+
+    .separator {
+        display: inline-block;
+    }
+}
+
+.woo-price {
+    margin-right: 1.5rem;
+    flex-shrink: 0;
+
+    .sale-price {
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 1.5em;
+        color: var(--color-primary);
+        margin: 0rem 0.25rem 0rem 0rem;
+    }
+
+    .old-price {
+        font-size: 16px;
+        font-weight: 500;
+        text-decoration: line-through;
+        line-height: 1.5em;
+        color: #999999;
+    }
+}
+
+.woo-reviews {
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+
+    .stars {
+        margin-right: 0.25rem;
+        font-size: 14px;
+        color: var(--color-primary);
+
+        svg {
+            height: 16px;
+            width: 16px;
+            fill: var(--color-primary);
+        }
+    }
+
+    .txt {
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.5em;
+        color: #999999;
+    }
+}
+
+a.kmpw-post-info {
+    display: inline-block !important;
+}

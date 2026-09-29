@@ -1,0 +1,27 @@
+/**
+ * Editor panel branding.
+ *
+ * Puts the Kirollos Magdy logo in front of this plugin's section names in the
+ * Advanced tab, the same way other addons brand their panels.
+ *
+ * Elementor gives every control wrapper a class built from the control name
+ * (elementor-control-{name}), so each section is targeted by its own id and
+ * no other plugin's panels are touched. The logo is an inline SVG data URI so
+ * there is no extra HTTP request and nothing to break if the file moves.
+ */
+
+.elementor-control-mefe_section_mouse_effects .elementor-panel-heading-title::before,
+.elementor-control-mefe_section_floating .elementor-panel-heading-title::before,
+.elementor-control-mefe_section_cursor .elementor-panel-heading-title::before,
+.elementor-control-mefe_section_trail .elementor-panel-heading-title::before {
+	content: '';
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	margin-inline-end: 7px;
+	vertical-align: -2px;
+	background-image: url( "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9Iktpcm9sbG9zIE1hZ2R5Ij4KICA8cmVjdCB4PSI2MiIgeT0iMjgiIHdpZHRoPSI3NiIgaGVpZ2h0PSI0NTYiIHJ4PSIzOCIgZmlsbD0iIzlCMDBGRiIvPgogIDxwYXRoIGQ9Ik00MzcgNjIgTDIxNCAyNTcgTDQzNyA0NTIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0I0NUNGRiIgc3Ryb2tlLXdpZHRoPSI3NiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=" );
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: contain;
+}

@@ -1,0 +1,30 @@
+@font-face{font-family:'Kirollos Portfolio Icons';src:url('./fonts/kirollos-portfolio-icons.woff2?v=4.6.1') format('woff2'),url('./fonts/kirollos-portfolio-icons.ttf?v=4.6.1') format('truetype');font-weight:400;font-style:normal;font-display:block;}
+.kpio{font-family:'Kirollos Portfolio Icons' !important;font-style:normal;font-weight:400;font-variant:normal;text-transform:none;line-height:1;speak:never;display:inline-block;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+.kpio::before{color:inherit;}
+.kpio-wordpress::before{content:'\e000';}
+.kpio-custom-plugin::before{content:'\e001';}
+.kpio-custom-theme::before{content:'\e002';}
+.kpio-woocommerce::before{content:'\e003';}
+.kpio-shopify::before{content:'\e004';}
+.kpio-performance::before{content:'\e005';}
+
+/* Second set. Kept in its own font file so the original six glyphs are
+   untouched, which means every icon already placed on the site is safe. */
+@font-face{font-family:'Kirollos Portfolio Icons 2';src:url('./fonts/kirollos-portfolio-icons-2.woff2?v=9') format('woff2'),url('./fonts/kirollos-portfolio-icons-2.ttf?v=9') format('truetype');font-weight:400;font-style:normal;font-display:block;}
+.kpio-mostaql,.kpio-khamsat,.kpio-freelancer,.kpio-upwork,.kpio-fiverr,.kpio-behance,.kpio-chatgpt,.kpio-claude,.kpio-gutenberg,.kpio-wpml,.kpio-acf,.kpio-google-tag,.kpio-meta-pixel,.kpio-ga4,.kpio-mysql,.kpio-git{font-family:'Kirollos Portfolio Icons 2' !important;}
+.kpio-mostaql::before{content:'\e100';}
+.kpio-khamsat::before{content:'\e101';}
+.kpio-freelancer::before{content:'\e102';}
+.kpio-upwork::before{content:'\e103';}
+.kpio-fiverr::before{content:'\e104';}
+.kpio-behance::before{content:'\e105';}
+.kpio-chatgpt::before{content:'\e106';}
+.kpio-claude::before{content:'\e107';}
+.kpio-gutenberg::before{content:'\e108';}
+.kpio-wpml::before{content:'\e109';}
+.kpio-acf::before{content:'\e10a';}
+.kpio-google-tag::before{content:'\e10b';}
+.kpio-meta-pixel::before{content:'\e10c';}
+.kpio-ga4::before{content:'\e10d';}
+.kpio-mysql::before{content:'\e10e';}
+.kpio-git::before{content:'\e10f';}

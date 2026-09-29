@@ -1,0 +1,277 @@
+/**
+ * Mouse Effects for Elementor — frontend styles.
+ *
+ * Variable defaults are declared inside :where() so they carry ZERO
+ * specificity. Elementor writes the per-element values into its own
+ * `.elementor-element-xxxxx { --mefe-*: ... }` rules, and those would
+ * otherwise tie on specificity with a plain class selector and win or lose
+ * depending on stylesheet order. :where() removes that race entirely.
+ */
+
+:where( .mefe-float-yes ) {
+	--mefe-fx: 0px;
+	--mefe-fy: 0px;
+	--mefe-frot: 0deg;
+	--mefe-fscale-to: 1;
+	--mefe-fdur: 3000ms;
+	--mefe-fdelay: 0ms;
+}
+
+/* ------------------------------------------------------------------ *
+ * Floating Effects — pure CSS, so it animates live in the editor too.
+ * ------------------------------------------------------------------ */
+
+@keyframes mefe-float {
+	from {
+		transform:
+			translate3d( calc( var( --mefe-fx ) * -1 ), calc( var( --mefe-fy ) * -1 ), 0 )
+			rotate( calc( var( --mefe-frot ) * -1 ) )
+			scale( 1 );
+	}
+	to {
+		transform:
+			translate3d( var( --mefe-fx ), var( --mefe-fy ), 0 )
+			rotate( var( --mefe-frot ) )
+			scale( var( --mefe-fscale-to ) );
+	}
+}
+
+.mefe-float-yes {
+	animation-name: mefe-float;
+	animation-duration: var( --mefe-fdur );
+	animation-delay: var( --mefe-fdelay );
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+	will-change: transform;
+}
+
+/**
+ * When an element uses Floating AND a Mouse Effect, the JS takes over the
+ * floating maths so both can be composed into one transform — a CSS
+ * animation would otherwise override the JS inline transform outright
+ * (animations beat inline styles in the cascade).
+ */
+.mefe-float-js {
+	animation-name: none !important;
+}
+
+/* Per-device disable */
+@media ( min-width: 1025px ) {
+	.mefe-fhide-desktop-yes {
+		animation-name: none !important;
+		transform: none !important;
+	}
+}
+
+@media ( min-width: 768px ) and ( max-width: 1024px ) {
+	.mefe-fhide-tablet-yes {
+		animation-name: none !important;
+		transform: none !important;
+	}
+}
+
+@media ( max-width: 767px ) {
+	.mefe-fhide-mobile-yes {
+		animation-name: none !important;
+		transform: none !important;
+	}
+}
+
+/* ------------------------------------------------------------------ *
+ * Mouse Effects — driven by JS, which reads the same custom properties.
+ * ------------------------------------------------------------------ */
+
+.mefe-mouse-yes {
+	will-change: transform;
+}
+
+.mefe-mouse-yes.mefe-type-track {
+	transition: transform 0.2s cubic-bezier( 0.22, 1, 0.36, 1 );
+}
+
+.mefe-mouse-yes.mefe-type-tilt {
+	transition: transform 0.15s ease-out;
+	transform-style: preserve-3d;
+}
+
+.mefe-mouse-yes.mefe-type-magnetic {
+	transition: transform 0.25s cubic-bezier( 0.22, 1, 0.36, 1 );
+}
+
+/* Floating repaints every frame; a transition would smear the motion. */
+.mefe-float-js {
+	transition: none !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * Mouse Cursor — one shared node per document, driven by JS.
+ * ------------------------------------------------------------------ */
+
+:where( .mefe-cursor-yes ) {
+	--mefe-cursor-size: 40px;
+	--mefe-cursor-bg: #7c3aed;
+	--mefe-cursor-color: #fff;
+	--mefe-cursor-font-size: 14px;
+	--mefe-cursor-radius: 50%;
+	--mefe-cursor-opacity: 1;
+	--mefe-cursor-blend: normal;
+	--mefe-cursor-lag: 60;
+}
+
+/* Hide the native pointer over the element (and everything inside it). */
+.mefe-chide-native-yes,
+.mefe-chide-native-yes * {
+	cursor: none !important;
+}
+
+.mefe-cursor {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 999999;
+	pointer-events: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	line-height: 1.2;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+	opacity: 0;
+	transform: translate3d( -100px, -100px, 0 );
+	/* Only opacity transitions — transform is driven every frame by JS, so a
+	   transition on it would fight the follow loop. */
+	transition: opacity 0.25s ease;
+	will-change: transform, opacity;
+}
+
+.mefe-cursor.is-active {
+	opacity: var( --mefe-c-opacity, 1 );
+}
+
+/* The pointer itself is never a touch target. */
+@media ( hover: none ), ( pointer: coarse ) {
+	.mefe-cursor {
+		display: none !important;
+	}
+
+	.mefe-chide-native-yes,
+	.mefe-chide-native-yes * {
+		cursor: auto !important;
+	}
+}
+
+@media ( min-width: 1025px ) {
+	.mefe-chide-desktop-yes,
+	.mefe-chide-desktop-yes * {
+		cursor: auto !important;
+	}
+}
+
+@media ( min-width: 768px ) and ( max-width: 1024px ) {
+	.mefe-chide-tablet-yes,
+	.mefe-chide-tablet-yes * {
+		cursor: auto !important;
+	}
+}
+
+@media ( max-width: 767px ) {
+	.mefe-chide-mobile-yes,
+	.mefe-chide-mobile-yes * {
+		cursor: auto !important;
+	}
+}
+
+/* ------------------------------------------------------------------ *
+ * Cursor Trail — a canvas painted behind the element's own content.
+ * ------------------------------------------------------------------ */
+
+:where( .mefe-trail-yes ) {
+	--mefe-trail-color: #7c3aed;
+	--mefe-trail-color2: ;
+	--mefe-trail-drift: 25;
+	--mefe-trail-drift-speed: 3;
+	--mefe-trail-size: 8;
+	--mefe-trail-count: 2;
+	--mefe-trail-length: 25;
+	--mefe-trail-life: 6;
+	--mefe-trail-lag: 85;
+	--mefe-trail-opacity: 0.7;
+	--mefe-trail-exclude: "";
+}
+
+.mefe-trail-yes {
+	position: relative;
+}
+
+.mefe-tclip-yes {
+	overflow: hidden;
+}
+
+.mefe-trail-canvas {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	z-index: 0;
+}
+
+/**
+ * Lift the element's real content above the canvas. Wrapped in :where() so it
+ * carries no specificity — any widget that positions itself (Elementor's own
+ * absolute/fixed positioning options) overrides this without a fight.
+ */
+:where( .mefe-trail-yes > *:not( .mefe-trail-canvas ) ) {
+	position: relative;
+	z-index: 1;
+}
+
+@media ( min-width: 1025px ) {
+	.mefe-thide-desktop-yes > .mefe-trail-canvas {
+		display: none;
+	}
+}
+
+@media ( min-width: 768px ) and ( max-width: 1024px ) {
+	.mefe-thide-tablet-yes > .mefe-trail-canvas {
+		display: none;
+	}
+}
+
+@media ( max-width: 767px ) {
+	.mefe-thide-mobile-yes > .mefe-trail-canvas {
+		display: none;
+	}
+}
+
+@media ( prefers-reduced-motion: reduce ) {
+	.mefe-trail-canvas {
+		display: none !important;
+	}
+}
+
+.mefe-glare {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	border-radius: inherit;
+	opacity: 0;
+	z-index: 1;
+	transition: opacity 0.2s ease-out;
+	background: radial-gradient( circle at 50% 50%, rgba( 255, 255, 255, 0.85 ) 0%, rgba( 255, 255, 255, 0 ) 60% );
+}
+
+@media ( prefers-reduced-motion: reduce ) {
+	.mefe-float-yes {
+		animation-name: none !important;
+		transform: none !important;
+	}
+
+	.mefe-mouse-yes {
+		transition: none !important;
+	}
+}

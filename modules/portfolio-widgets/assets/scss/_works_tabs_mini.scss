@@ -1,0 +1,122 @@
+.kmpw-portfolio-grid-slider-wrapper {
+    width: 100%;
+    font-family: comfortaa, sans-serif;
+    overflow: hidden;
+
+    .kmpw-portfolio-slider {
+        width: 100%;
+        display: block;
+
+        .swiper-container {
+            width: 100%;
+        }
+
+        .swiper-wrapper {
+            display: flex;
+            align-items: stretch;
+        }
+
+        .swiper-slide {
+            display: flex;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+
+        .portfolio-item {
+            width: 100%;
+            overflow: hidden;
+            text-align: left;
+            display: block;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+
+            // &:hover {
+                // transform: translateY(-5px);
+            // }
+        }
+
+        .portfolio-image {
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            border-radius: 30px;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+                transition: transform 0.3s ease;
+            }
+
+            .portfolio-no-thumb {
+                width: 100%;
+                height: 100%;
+                background: #f3f3f3;
+            }
+        }
+
+        .portfolio-item:hover .portfolio-image img {
+            transform: scale(1.05);
+        }
+
+        .portfolio-title {
+            font-size: 28px;
+            font-weight: 600;
+            margin: 1.2em;
+            color: #000;
+            margin: 0;
+            text-align: center !important;
+
+            a {
+                color: #222;
+                text-decoration: none;
+            }
+        }
+
+        .portfolio-excerpt {
+            margin: 10px 0 0 0;
+            color: #000;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* Swiper controls */
+        .swiper-pagination {
+            margin-top: 50px;
+            position: relative !important;
+        }
+    }
+
+    /* Responsive */
+    @media (min-width: 1024px) {
+        .kmpw-portfolio-slider .swiper-slide {
+            width: calc(33.333% - 24px);
+        }
+    }
+
+    @media (max-width: 1023px) and (min-width: 768px) {
+        .kmpw-portfolio-slider .swiper-slide {
+            width: calc(50% - 24px);
+        }
+    }
+
+    @media (max-width: 767px) {
+        .kmpw-portfolio-slider .swiper-slide {
+            width: calc(100% - 24px);
+        }
+
+        .portfolio-image {
+            height: 200px;
+        }
+
+        .portfolio-title {
+            font-size: 18px;
+        }
+
+        .portfolio-excerpt {
+            font-size: 13px;
+        }
+    }
+}

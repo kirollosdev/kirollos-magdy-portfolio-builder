@@ -1,0 +1,988 @@
+/**
+ * Portfolio Archive + Logo Wall.
+ *
+ * Everything tunable is a custom property set on .kmpb-pa by the widget
+ * controls, so the Elementor panel drives the layout without any of it being
+ * hardcoded here.
+ */
+
+.kmpb-pa {
+	--kmpb-pa-cols: 2;
+	--kmpb-pa-gap: 22px;
+	--kmpb-pa-side: 330px;
+	--kmpb-pa-filter-cols: 2;
+	--kmpb-pa-logo: 40px;
+	--kmpb-pa-shot-ratio: 4 / 3;
+	--kmpb-pa-shot-cols: 2;
+	--kmpb-pa-radius: 14px;
+	--kmpb-pa-accent: #9b00ff;
+	--kmpb-pa-card: #ffffff;
+	--kmpb-pa-border: rgba(17, 17, 17, 0.1);
+	--kmpb-pa-text: #111111;
+	--kmpb-pa-muted: rgba(17, 17, 17, 0.55);
+
+	color: var(--kmpb-pa-text);
+}
+
+/* ------------------------------------------------------------ shell */
+
+.kmpb-pa--has-side {
+	display: grid;
+	grid-template-columns: var(--kmpb-pa-side) minmax(0, 1fr);
+	gap: calc(var(--kmpb-pa-gap) * 1.6);
+	align-items: start;
+}
+
+.kmpb-pa--has-side.kmpb-pa--right {
+	grid-template-columns: minmax(0, 1fr) var(--kmpb-pa-side);
+}
+
+.kmpb-pa--has-side.kmpb-pa--right .kmpb-pa__side {
+	order: 2;
+}
+
+.kmpb-pa__main {
+	min-width: 0;
+}
+
+/* ------------------------------------------------------------ sidebar */
+
+.kmpb-pa__side {
+	position: sticky;
+	top: 100px;
+	padding: 16px 18px;
+	background: var(--kmpb-pa-card);
+	border: 1px solid var(--kmpb-pa-border);
+	border-radius: var(--kmpb-pa-radius);
+}
+
+/* Industry and Service sit side by side by default; the Filter Columns control
+   stacks them instead. */
+.kmpb-pa__groups {
+	display: grid;
+	grid-template-columns: repeat(var(--kmpb-pa-filter-cols), minmax(0, 1fr));
+	gap: 16px 18px;
+	align-items: start;
+}
+
+.kmpb-pa__group-title {
+	margin: 0 0 8px;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--kmpb-pa-muted);
+}
+
+.kmpb-pa__list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.kmpb-pa__list li + li {
+	margin-top: 2px;
+}
+
+.kmpb-pa__check {
+	display: flex;
+	align-items: center;
+	gap: 7px;
+	padding: 3px 6px;
+	margin: 0 -6px;
+	border-radius: 6px;
+	cursor: pointer;
+	font-size: 13px;
+	line-height: 1.35;
+	transition: background 0.18s ease, color 0.18s ease;
+}
+
+.kmpb-pa__check:hover {
+	background: color-mix(in srgb, var(--kmpb-pa-accent) 8%, transparent);
+}
+
+.kmpb-pa__check input {
+	width: 14px;
+	height: 14px;
+	margin: 0;
+	flex: 0 0 auto;
+	accent-color: var(--kmpb-pa-accent);
+	cursor: pointer;
+}
+
+.kmpb-pa__check span {
+	flex: 1 1 auto;
+}
+
+.kmpb-pa__check em {
+	font-style: normal;
+	font-size: 12px;
+	color: var(--kmpb-pa-muted);
+}
+
+.kmpb-pa__check:has(input:checked) {
+	color: var(--kmpb-pa-accent);
+	font-weight: 600;
+}
+
+.kmpb-pa__reset {
+	display: block;
+	width: 100%;
+	margin-top: 14px;
+	padding: 7px 12px;
+	font: inherit;
+	font-size: 13px;
+	color: var(--kmpb-pa-accent);
+	background: transparent;
+	border: 1px solid currentColor;
+	border-radius: 999px;
+	cursor: pointer;
+	transition: background 0.18s ease, color 0.18s ease;
+}
+
+.kmpb-pa__reset:hover {
+	background: var(--kmpb-pa-accent);
+	color: #fff;
+}
+
+.kmpb-pa__reset[hidden] {
+	display: none;
+}
+
+/* ------------------------------------------------- slide-in filters */
+
+/* Off screen, the panel is a real drawer: fixed, scrollable on its own, with a
+   scrim behind it. None of this exists on a wide screen, where the sidebar is
+   just a column. */
+
+.kmpb-pa__fab,
+.kmpb-pa__scrim,
+.kmpb-pa__side-head,
+.kmpb-pa__apply {
+	display: none;
+}
+
+/* A tab held against the edge of the screen, rounded on its outer side only,
+   sitting high enough to be under a thumb rather than under a sticky bar. */
+.kmpb-pa__fab {
+	position: fixed;
+	top: var(--kmpb-pa-fab-top, 30%);
+	z-index: 9998;
+	align-items: center;
+	gap: 8px;
+	padding: 14px 16px;
+	font: inherit;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1;
+	color: var(--kmpb-pa-text);
+	background: var(--kmpb-pa-card);
+	border: 1px solid var(--kmpb-pa-border);
+	box-shadow: 0 8px 26px -10px rgba(0, 0, 0, 0.4);
+	cursor: pointer;
+}
+
+.kmpb-pa--fab-left .kmpb-pa__fab {
+	left: 0;
+	border-left: 0;
+	border-radius: 0 999px 999px 0;
+	padding-left: 12px;
+}
+
+.kmpb-pa--fab-right .kmpb-pa__fab {
+	right: 0;
+	border-right: 0;
+	border-radius: 999px 0 0 999px;
+	padding-right: 12px;
+}
+
+/* The text is in the markup for screen readers whether or not it is shown. */
+.kmpb-pa__fab-text {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	white-space: nowrap;
+	clip-path: inset(50%);
+}
+
+.kmpb-pa--fab-text .kmpb-pa__fab-text {
+	position: static;
+	width: auto;
+	height: auto;
+	overflow: visible;
+	clip-path: none;
+}
+
+.kmpb-pa__fab-count {
+	position: absolute;
+	top: -7px;
+	right: -7px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 20px;
+	height: 20px;
+	padding: 0 6px;
+	font-size: 12px;
+	color: #fff;
+	background: var(--kmpb-pa-accent);
+	border: 2px solid var(--kmpb-pa-card);
+	border-radius: 999px;
+}
+
+.kmpb-pa__fab-count[hidden] {
+	display: none;
+}
+
+.kmpb-pa__scrim {
+	position: fixed;
+	inset: 0;
+	z-index: 9998;
+	background: rgba(0, 0, 0, 0.45);
+}
+
+.kmpb-pa__scrim[hidden] {
+	display: none;
+}
+
+.kmpb-pa__side-head {
+	align-items: center;
+	justify-content: space-between;
+	margin: -16px -18px 14px;
+	padding: 14px 18px;
+	border-bottom: 1px solid var(--kmpb-pa-border);
+	font-size: 15px;
+}
+
+.kmpb-pa__close {
+	width: 32px;
+	height: 32px;
+	padding: 0;
+	font-size: 26px;
+	line-height: 1;
+	color: var(--kmpb-pa-muted);
+	background: none;
+	border: 0;
+	cursor: pointer;
+}
+
+.kmpb-pa__apply {
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	margin-top: 16px;
+	padding: 12px 18px;
+	font: inherit;
+	font-size: 15px;
+	font-weight: 600;
+	color: #fff;
+	background: var(--kmpb-pa-accent);
+	border: 0;
+	border-radius: 999px;
+	cursor: pointer;
+}
+
+/* ------------------------------------------------------------ slider */
+
+/* Native scrolling with snap points rather than a transform track: swipe,
+   trackpad, keyboard and screen readers all work without being reimplemented,
+   and the arrows just scroll it. */
+
+.kmpb-pa--slider .kmpb-pa__grid {
+	display: flex;
+	grid-template-columns: none;
+	overflow-x: auto;
+	scroll-snap-type: x mandatory;
+	scroll-behavior: smooth;
+	scrollbar-width: none;
+	-webkit-overflow-scrolling: touch;
+	padding-bottom: 2px;
+}
+
+.kmpb-pa--slider .kmpb-pa__grid::-webkit-scrollbar {
+	display: none;
+}
+
+.kmpb-pa--slider .kmpb-pa__card {
+	flex: 0 0 calc(
+		(100% - (var(--kmpb-pa-cols) - 1) * var(--kmpb-pa-gap)) / var(--kmpb-pa-cols)
+	);
+	scroll-snap-align: start;
+}
+
+.kmpb-pa__nav {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 14px;
+	margin-top: calc(var(--kmpb-pa-gap) * 0.9);
+}
+
+.kmpb-pa__arrow {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 42px;
+	height: 42px;
+	padding: 0;
+	color: var(--kmpb-pa-text);
+	background: var(--kmpb-pa-card);
+	border: 1px solid var(--kmpb-pa-border);
+	border-radius: 999px;
+	cursor: pointer;
+	transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+}
+
+.kmpb-pa__arrow:hover:not(:disabled) {
+	color: #fff;
+	background: var(--kmpb-pa-accent);
+	border-color: var(--kmpb-pa-accent);
+}
+
+.kmpb-pa__arrow:disabled {
+	opacity: 0.35;
+	cursor: default;
+}
+
+.kmpb-pa__dots {
+	display: flex;
+	align-items: center;
+	gap: 7px;
+}
+
+.kmpb-pa__dot {
+	width: 8px;
+	height: 8px;
+	padding: 0;
+	background: var(--kmpb-pa-border);
+	border: 0;
+	border-radius: 999px;
+	cursor: pointer;
+	transition: width 0.2s ease, background 0.2s ease;
+}
+
+.kmpb-pa__dot.is-active {
+	width: 22px;
+	background: var(--kmpb-pa-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.kmpb-pa--slider .kmpb-pa__grid {
+		scroll-behavior: auto;
+	}
+}
+
+/* ------------------------------------------------- latest projects */
+
+.kmpb-lp__head {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 24px;
+	margin-bottom: calc(var(--kmpb-pa-gap) * 1.4);
+}
+
+.kmpb-lp__headings {
+	max-width: 62ch;
+}
+
+.kmpb-lp__eyebrow {
+	margin: 0 0 8px;
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--kmpb-pa-accent);
+}
+
+.kmpb-lp__title {
+	margin: 0;
+	font-size: clamp(24px, 3vw, 34px);
+	line-height: 1.2;
+}
+
+.kmpb-lp__sub {
+	margin: 10px 0 0;
+	font-size: 16px;
+	line-height: 1.6;
+	color: var(--kmpb-pa-muted);
+}
+
+.kmpb-lp__all {
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
+	flex: 0 0 auto;
+	padding: 11px 22px;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1.2;
+	color: var(--kmpb-pa-accent);
+	text-decoration: none;
+	border: 1px solid currentColor;
+	border-radius: 999px;
+	transition: background 0.2s ease, color 0.2s ease;
+}
+
+.kmpb-lp__all svg {
+	transition: transform 0.2s ease;
+}
+
+.kmpb-lp__all:hover {
+	color: #fff;
+	background: var(--kmpb-pa-accent);
+	border-color: var(--kmpb-pa-accent);
+}
+
+.kmpb-lp__all:hover svg {
+	transform: translateX(3px);
+}
+
+/* The work date rides in the card header here, opposite the logo, because a
+   homepage card has no button row to hang it from. */
+.kmpb-lp__date {
+	margin-left: auto;
+}
+
+.kmpb-lp--center .kmpb-lp__head {
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+}
+
+.kmpb-lp--center .kmpb-lp__headings {
+	margin-inline: auto;
+}
+
+@media (max-width: 767px) {
+	.kmpb-lp__head {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+}
+
+/* ------------------------------------------------------------ pills */
+
+.kmpb-pa__pills {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-bottom: calc(var(--kmpb-pa-gap) * 1.2);
+}
+
+.kmpb-pa__pill {
+	padding: 8px 18px;
+	font: inherit;
+	font-size: 14px;
+	line-height: 1.3;
+	color: var(--kmpb-pa-text);
+	background: transparent;
+	border: 1px solid var(--kmpb-pa-border);
+	border-radius: 999px;
+	cursor: pointer;
+	transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+}
+
+.kmpb-pa__pill:hover {
+	border-color: var(--kmpb-pa-accent);
+	color: var(--kmpb-pa-accent);
+}
+
+.kmpb-pa__pill.is-active {
+	background: var(--kmpb-pa-accent);
+	border-color: var(--kmpb-pa-accent);
+	color: #fff;
+}
+
+/* ------------------------------------------------------------ grid */
+
+.kmpb-pa__grid {
+	display: grid;
+	grid-template-columns: repeat(var(--kmpb-pa-cols), minmax(0, 1fr));
+	gap: var(--kmpb-pa-gap);
+}
+
+.kmpb-pa--list .kmpb-pa__grid {
+	grid-template-columns: minmax(0, 1fr);
+}
+
+.kmpb-pa__empty {
+	margin: 40px 0;
+	text-align: center;
+	color: var(--kmpb-pa-muted);
+}
+
+.kmpb-pa__empty[hidden] {
+	display: none;
+}
+
+/* ------------------------------------------------------------ card */
+
+.kmpb-pa__card {
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	background: var(--kmpb-pa-card);
+	border: 1px solid var(--kmpb-pa-border);
+	border-radius: var(--kmpb-pa-radius);
+	transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.kmpb-pa__card:hover {
+	transform: translateY(-4px);
+	border-color: color-mix(in srgb, var(--kmpb-pa-accent) 45%, var(--kmpb-pa-border));
+	box-shadow: 0 18px 40px -24px rgba(0, 0, 0, 0.45);
+}
+
+.kmpb-pa__card.is-hidden {
+	display: none;
+}
+
+/* The logo strip across the top of the card: small, left aligned, its own row. */
+.kmpb-pa__head {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 14px 18px;
+	border-bottom: 1px solid var(--kmpb-pa-border);
+}
+
+.kmpb-pa__head .kmpb-pa__logo {
+	display: flex;
+	align-items: center;
+	min-height: 0;
+	padding: 0;
+	background: none;
+}
+
+.kmpb-pa__head .kmpb-pa__logo img {
+	max-height: var(--kmpb-pa-logo);
+	width: auto;
+	max-width: 190px;
+}
+
+/* The live link, pushed to the far end of the strip from the logo. */
+.kmpb-pa__visit {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	margin-left: auto;
+	max-width: 55%;
+	padding: 6px 12px;
+	font-size: 12.5px;
+	font-weight: 600;
+	line-height: 1.2;
+	color: var(--kmpb-pa-accent);
+	text-decoration: none;
+	white-space: nowrap;
+	background: color-mix(in srgb, var(--kmpb-pa-accent) 8%, transparent);
+	border: 1px solid color-mix(in srgb, var(--kmpb-pa-accent) 28%, transparent);
+	border-radius: 999px;
+	transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.kmpb-pa__visit-text {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.kmpb-pa__visit-icon {
+	flex: 0 0 auto;
+	transition: transform 0.2s ease;
+}
+
+.kmpb-pa__visit:hover {
+	color: #fff;
+	background: var(--kmpb-pa-accent);
+	border-color: var(--kmpb-pa-accent);
+}
+
+.kmpb-pa__visit:hover .kmpb-pa__visit-icon {
+	transform: translate(2px, -2px);
+}
+
+/* The gallery photos under the logo strip. */
+.kmpb-pa__shots {
+	display: grid;
+	grid-template-columns: repeat(var(--kmpb-pa-shot-cols), minmax(0, 1fr));
+	gap: 2px;
+	background: var(--kmpb-pa-border);
+}
+
+/* Either an <a> or a <span>, depending on whether the card links anywhere. */
+.kmpb-pa__shot {
+	display: block;
+	overflow: hidden;
+	line-height: 0;
+	text-decoration: none;
+	background: color-mix(in srgb, var(--kmpb-pa-text) 4%, transparent);
+}
+
+.kmpb-pa__shot img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	aspect-ratio: var(--kmpb-pa-shot-ratio);
+	object-fit: cover;
+	transition: transform 0.35s ease;
+}
+
+.kmpb-pa__card:hover .kmpb-pa__shot img {
+	transform: scale(1.05);
+}
+
+/* Whole screenshot, nothing cropped off: the image keeps its own proportions
+   and the row grows to whatever the tallest one needs. The zoom on hover comes
+   off with it, since scaling a full screenshot would crop it again. */
+.kmpb-pa__shots--full {
+	align-items: start;
+}
+
+.kmpb-pa__shots--full .kmpb-pa__shot img,
+.kmpb-pa__card:hover .kmpb-pa__shots--full .kmpb-pa__shot img {
+	height: auto;
+	aspect-ratio: auto;
+	object-fit: contain;
+	transform: none;
+}
+
+.kmpb-pa__logo {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: var(--kmpb-pa-logo);
+	padding: 22px;
+	background: color-mix(in srgb, var(--kmpb-pa-text) 4%, transparent);
+	text-decoration: none;
+}
+
+.kmpb-pa__logo img {
+	display: block;
+	width: auto;
+	max-width: 100%;
+	max-height: var(--kmpb-pa-logo);
+	height: auto;
+	object-fit: contain;
+	transition: transform 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
+}
+
+.kmpb-pa__card:hover .kmpb-pa__logo img {
+	transform: scale(1.04);
+}
+
+/* The small top logo stays put; the photos under it do the moving. */
+.kmpb-pa__card:hover .kmpb-pa__head .kmpb-pa__logo img {
+	transform: none;
+}
+
+.kmpb-pa--grey .kmpb-pa__logo img {
+	filter: grayscale(1);
+	opacity: 0.7;
+}
+
+.kmpb-pa--grey .kmpb-pa__card:hover .kmpb-pa__logo img {
+	filter: none;
+	opacity: 1;
+}
+
+.kmpb-pa__body {
+	display: flex;
+	flex: 1 1 auto;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 8px;
+	padding: 18px 20px 20px;
+}
+
+.kmpb-pa__name {
+	margin: 0;
+	font-size: 19px;
+	line-height: 1.3;
+}
+
+.kmpb-pa__name a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.kmpb-pa__name a:hover {
+	color: var(--kmpb-pa-accent);
+}
+
+.kmpb-pa__terms {
+	margin: 0;
+	font-size: 13px;
+	color: var(--kmpb-pa-muted);
+}
+
+.kmpb-pa__excerpt {
+	margin: 0;
+	font-size: 15px;
+	line-height: 1.55;
+	color: var(--kmpb-pa-muted);
+}
+
+.kmpb-pa__url {
+	font-size: 13px;
+	color: var(--kmpb-pa-muted);
+	text-decoration: none;
+	word-break: break-all;
+	border-bottom: 1px dashed currentColor;
+}
+
+.kmpb-pa__url:hover {
+	color: var(--kmpb-pa-accent);
+}
+
+/* Buttons from the left, work date pushed to the far end. The date carries the
+   margin rather than the row carrying space-between, so the layout is the same
+   whether there are two buttons, one, or none. */
+.kmpb-pa__foot {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 10px;
+	width: 100%;
+	margin-top: auto;
+	padding-top: 14px;
+}
+
+.kmpb-pa__date {
+	margin-left: auto;
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 1.2;
+	color: var(--kmpb-pa-muted);
+	white-space: nowrap;
+}
+
+.kmpb-pa__foot .kmpb-pa__cta {
+	margin-top: 0;
+}
+
+/* The live-site button, sharing the button shape but able to sit as an outline
+   so two buttons in a row do not read as two primary actions. */
+.kmpb-pa__cta--live {
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
+}
+
+.kmpb-pa__cta--live svg {
+	transition: transform 0.2s ease;
+}
+
+.kmpb-pa__cta--live:hover svg {
+	transform: translate(2px, -2px);
+}
+
+.kmpb-pa__cta--outline {
+	color: var(--kmpb-pa-accent);
+	background: transparent;
+	border: 1px solid currentColor;
+}
+
+.kmpb-pa__cta--outline:hover {
+	color: #fff;
+	background: var(--kmpb-pa-accent);
+	border-color: var(--kmpb-pa-accent);
+	filter: none;
+}
+
+.kmpb-pa__cta {
+	margin-top: auto;
+	padding: 10px 22px;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1.3;
+	color: #fff;
+	background: var(--kmpb-pa-accent);
+	border-radius: 999px;
+	text-decoration: none;
+	transition: filter 0.18s ease, transform 0.18s ease;
+}
+
+.kmpb-pa__body > .kmpb-pa__cta {
+	margin-top: 12px;
+}
+
+.kmpb-pa__cta:hover {
+	color: #fff;
+	filter: brightness(1.12);
+	transform: translateY(-1px);
+}
+
+/* ------------------------------------------------------------ list layout */
+
+/* Logo strip stays full width across the top; photos and text share the row. */
+.kmpb-pa--list .kmpb-pa__card {
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: stretch;
+}
+
+.kmpb-pa--list .kmpb-pa__head {
+	flex: 0 0 100%;
+}
+
+.kmpb-pa--list .kmpb-pa__shots {
+	flex: 0 0 clamp(180px, 34%, 340px);
+}
+
+.kmpb-pa--list .kmpb-pa__logo {
+	flex: 0 0 clamp(140px, 26%, 280px);
+}
+
+.kmpb-pa--list .kmpb-pa__body {
+	flex: 1 1 260px;
+	justify-content: center;
+}
+
+.kmpb-pa--list .kmpb-pa__cta {
+	margin-top: 10px;
+}
+
+/* ------------------------------------------------------------ wall */
+
+.kmpb-pa--wall .kmpb-pa__body {
+	gap: 6px;
+	padding: 14px 16px 16px;
+	text-align: center;
+	align-items: center;
+}
+
+.kmpb-pa--wall .kmpb-pa__name {
+	font-size: 16px;
+}
+
+.kmpb-pa--wall .kmpb-pa__cta {
+	padding: 8px 18px;
+	font-size: 13px;
+}
+
+/* ------------------------------------------------------------ responsive */
+
+@media (max-width: 1024px) {
+	.kmpb-pa--has-side,
+	.kmpb-pa--has-side.kmpb-pa--right {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.kmpb-pa--has-side.kmpb-pa--right .kmpb-pa__side {
+		order: 0;
+	}
+
+	.kmpb-pa__side {
+		position: static;
+	}
+}
+
+/* The drawer itself. Written twice rather than once with a custom property,
+   because a media query cannot read one. */
+
+@media (max-width: 1024px) {
+	.kmpb-pa--oc-tablet .kmpb-pa__fab {
+		display: inline-flex;
+	}
+
+	.kmpb-pa--oc-tablet .kmpb-pa__side-head,
+	.kmpb-pa--oc-tablet .kmpb-pa__apply {
+		display: flex;
+	}
+
+	.kmpb-pa--oc-tablet .kmpb-pa__side {
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		z-index: 9999;
+		width: min(86vw, 360px);
+		max-height: 100%;
+		overflow-y: auto;
+		border-radius: 0;
+		border-width: 0 1px 0 0;
+		transform: translateX(-101%);
+		transition: transform 0.28s ease;
+	}
+
+	.kmpb-pa--oc-tablet.kmpb-pa--right .kmpb-pa__side {
+		left: auto;
+		right: 0;
+		border-width: 0 0 0 1px;
+		transform: translateX(101%);
+	}
+
+	.kmpb-pa--oc-tablet.is-filters-open .kmpb-pa__side {
+		transform: none;
+	}
+
+	.kmpb-pa--oc-tablet.is-filters-open .kmpb-pa__scrim {
+		display: block;
+	}
+}
+
+@media (max-width: 767px) {
+	.kmpb-pa--oc-mobile .kmpb-pa__fab {
+		display: inline-flex;
+	}
+
+	.kmpb-pa--oc-mobile .kmpb-pa__side-head,
+	.kmpb-pa--oc-mobile .kmpb-pa__apply {
+		display: flex;
+	}
+
+	.kmpb-pa--oc-mobile .kmpb-pa__side {
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		z-index: 9999;
+		width: min(86vw, 360px);
+		max-height: 100%;
+		overflow-y: auto;
+		border-radius: 0;
+		border-width: 0 1px 0 0;
+		transform: translateX(-101%);
+		transition: transform 0.28s ease;
+	}
+
+	.kmpb-pa--oc-mobile.kmpb-pa--right .kmpb-pa__side {
+		left: auto;
+		right: 0;
+		border-width: 0 0 0 1px;
+		transform: translateX(101%);
+	}
+
+	.kmpb-pa--oc-mobile.is-filters-open .kmpb-pa__side {
+		transform: none;
+	}
+
+	.kmpb-pa--oc-mobile.is-filters-open .kmpb-pa__scrim {
+		display: block;
+	}
+}
+
+/* Between the two breakpoints a phone-only drawer is still an ordinary
+   sidebar, so it must not be left hidden off screen. */
+@media (min-width: 768px) and (max-width: 1024px) {
+	.kmpb-pa--oc-mobile .kmpb-pa__side {
+		transform: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.kmpb-pa__side {
+		transition: none;
+	}
+}
+
+@media (max-width: 767px) {
+	.kmpb-pa--list .kmpb-pa__card {
+		flex-direction: column;
+	}
+
+	.kmpb-pa--list .kmpb-pa__logo {
+		flex: 0 0 auto;
+	}
+}
