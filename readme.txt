@@ -6,7 +6,7 @@ Tags: elementor, portfolio, mouse effects, cursor, case study
 Requires at least: 6.0
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 3.9.1
+Stable tag: 3.9.2
 License: Proprietary. All rights reserved.
 
 Portfolio toolkit for Elementor: a portfolio post type, 14 widgets, interaction effects on every
@@ -79,6 +79,11 @@ property of their owners.
    or Latest Articles plugins, deactivate and delete them.
 
 == Changelog ==
+
+= 3.9.2 =
+* Latest Articles: card titles use the global Secondary colour. A one-time update points
+  the saved title colour at Secondary; new widgets use it by default.
+* Latest Articles: smaller category badge (10px text, tighter padding).
 
 = 3.9.1 =
 * Latest Articles: redesigned to common web design standards. Covers fill the whole image

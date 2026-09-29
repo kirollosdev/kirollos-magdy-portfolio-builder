@@ -24,7 +24,7 @@ final class KMPB_Latest_Articles {
 	const STYLE_OPTION = 'kmpb_latest_articles_style';
 
 	/** Current style update; bump to run a new one. */
-	const STYLE_VERSION = '2';
+	const STYLE_VERSION = '3';
 
 	public static function init() {
 		add_action( 'init', array( __CLASS__, 'migrate_widget_name' ), 20 );
@@ -92,6 +92,8 @@ final class KMPB_Latest_Articles {
 	}
 
 	/**
+	 * Style update 3: card titles use the global Secondary colour.
+	 *
 	 * Style update 2: the widget now uses Arial. Fonts picked in the widget's own Typography
 	 * controls are saved per page and would override that, so switch any saved font family
 	 * on Latest Articles widgets to Arial, and drop the retired image height and fit settings.
@@ -151,6 +153,19 @@ final class KMPB_Latest_Articles {
 						unset( $elements[ $i ]['settings'][ $key ] );
 						$touched = true;
 					}
+				}
+
+				// Title colour: point it at the global Secondary colour, replacing a saved
+				// global or custom colour.
+				$globals = isset( $element['settings']['__globals__'] ) && is_array( $element['settings']['__globals__'] ) ? $element['settings']['__globals__'] : array();
+				if ( ! isset( $globals['title_color'] ) || 'globals/colors?id=secondary' !== $globals['title_color'] ) {
+					$globals['title_color']                    = 'globals/colors?id=secondary';
+					$elements[ $i ]['settings']['__globals__'] = $globals;
+					$touched                                   = true;
+				}
+				if ( isset( $element['settings']['title_color'] ) ) {
+					unset( $elements[ $i ]['settings']['title_color'] );
+					$touched = true;
 				}
 			}
 			if ( ! empty( $element['elements'] ) && is_array( $element['elements'] ) ) {

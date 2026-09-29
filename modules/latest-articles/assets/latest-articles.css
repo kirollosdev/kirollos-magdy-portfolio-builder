@@ -1,4 +1,4 @@
-.kmla{--kmla-accent:#9d00ff;--kmla-ink:#0b0b12;--kmla-text:#4a5568;--kmla-muted:#718096;--kmla-line:#e4e9f0;width:100%;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+.kmla{--kmla-accent:#9d00ff;--kmla-ink:#0b0b12;--kmla-title:var(--e-global-color-secondary,#6e00b3);--kmla-text:#4a5568;--kmla-muted:#718096;--kmla-line:#e4e9f0;width:100%;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
 .kmla *{box-sizing:border-box}
 .kmla-heading,.kmla-title,.kmla-excerpt,.kmla-category,.kmla-meta{font-family:inherit}
 .kmla-header{display:flex;align-items:center;justify-content:space-between;gap:16px 32px;margin-bottom:32px}
@@ -16,8 +16,8 @@
 .kmla-card:hover .kmla-image{transform:scale(1.03)}
 .kmla-placeholder{width:100%;height:100%;background:linear-gradient(135deg,#3c0061,#0b0b12)}
 .kmla-card-body{display:flex;flex:1;flex-direction:column;align-items:flex-start;padding:20px 24px 24px}
-.kmla-category{display:inline-block;margin:0 0 12px;padding:6px 10px;border-radius:999px;background:var(--kmla-accent);color:#fff;font-size:11px;font-weight:700;line-height:1;text-transform:uppercase;letter-spacing:.06em}
-.kmla-title{margin:0 0 8px;color:var(--kmla-ink);font-size:18px;font-weight:700;line-height:1.35;transition:color .2s ease}
+.kmla-category{display:inline-block;margin:0 0 10px;padding:4px 8px;border-radius:999px;background:var(--kmla-accent);color:#fff;font-size:10px;font-weight:700;line-height:1.2;text-transform:uppercase;letter-spacing:.04em}
+.kmla-title{margin:0 0 8px;color:var(--kmla-title);font-size:18px;font-weight:700;line-height:1.35;transition:color .2s ease}
 .kmla-card:hover .kmla-title{color:var(--kmla-accent)}
 .kmla-excerpt{margin:0 0 20px;color:var(--kmla-text);font-size:14px;line-height:1.6}
 .kmla-meta{display:flex;align-items:center;gap:8px;width:100%;margin-top:auto;padding-top:16px;border-top:1px solid var(--kmla-line);color:var(--kmla-muted);font-size:13px;line-height:1.4}
