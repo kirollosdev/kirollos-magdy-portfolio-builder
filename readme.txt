@@ -6,7 +6,7 @@ Tags: elementor, portfolio, mouse effects, cursor, case study
 Requires at least: 6.0
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 3.9.2
+Stable tag: 3.9.3
 License: Proprietary. All rights reserved.
 
 Portfolio toolkit for Elementor: a portfolio post type, 14 widgets, interaction effects on every
@@ -79,6 +79,20 @@ property of their owners.
    or Latest Articles plugins, deactivate and delete them.
 
 == Changelog ==
+
+= 3.9.3 =
+* Latest Articles: Montserrat font. A one-time update switches fonts saved in the widget's
+  Typography settings to Montserrat.
+* Latest Articles: heading and navigation use the global Primary colour (card titles stay
+  on Secondary).
+* Latest Articles: the Uncategorized category never appears in the navigation or the
+  category picker.
+* Latest Articles: when no categories are picked, every category is shown. A saved list
+  that was the old automatic default (it included Uncategorized and left out WordPress
+  Development) is cleared by the one-time update.
+* Latest Articles: category badges use the global Secondary colour.
+* Latest Articles: much smaller category badge, and a Learn more button on every card,
+  with its own show/hide switch and text setting.
 
 = 3.9.2 =
 * Latest Articles: card titles use the global Secondary colour. A one-time update points

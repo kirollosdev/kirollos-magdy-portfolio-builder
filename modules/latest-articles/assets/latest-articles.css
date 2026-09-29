@@ -1,8 +1,8 @@
-.kmla{--kmla-accent:#9d00ff;--kmla-ink:#0b0b12;--kmla-title:var(--e-global-color-secondary,#6e00b3);--kmla-text:#4a5568;--kmla-muted:#718096;--kmla-line:#e4e9f0;width:100%;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+.kmla{--kmla-accent:var(--e-global-color-primary,#9d00ff);--kmla-ink:#0b0b12;--kmla-title:var(--e-global-color-secondary,#6e00b3);--kmla-text:#4a5568;--kmla-muted:#718096;--kmla-line:#e4e9f0;width:100%;box-sizing:border-box;font-family:"Montserrat",Arial,Helvetica,sans-serif}
 .kmla *{box-sizing:border-box}
 .kmla-heading,.kmla-title,.kmla-excerpt,.kmla-category,.kmla-meta{font-family:inherit}
 .kmla-header{display:flex;align-items:center;justify-content:space-between;gap:16px 32px;margin-bottom:32px}
-.kmla-heading{flex:0 0 auto;margin:0;line-height:1.2;white-space:nowrap}
+.kmla-heading{flex:0 0 auto;margin:0;color:var(--kmla-accent);line-height:1.2;white-space:nowrap}
 .kmla-nav{display:flex;flex:1 1 auto;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:8px}
 .kmla-nav-link{appearance:none;display:inline-flex;align-items:center;min-height:36px;margin:0;padding:8px 16px;border:1px solid currentColor;border-radius:999px;background:transparent;color:var(--kmla-accent);cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;line-height:1.2;white-space:nowrap;transition:background-color .2s ease,color .2s ease,border-color .2s ease}
 .kmla-nav-link.is-active{background:var(--kmla-accent);border-color:var(--kmla-accent);color:#fff}
@@ -16,11 +16,16 @@
 .kmla-card:hover .kmla-image{transform:scale(1.03)}
 .kmla-placeholder{width:100%;height:100%;background:linear-gradient(135deg,#3c0061,#0b0b12)}
 .kmla-card-body{display:flex;flex:1;flex-direction:column;align-items:flex-start;padding:20px 24px 24px}
-.kmla-category{display:inline-block;margin:0 0 10px;padding:4px 8px;border-radius:999px;background:var(--kmla-accent);color:#fff;font-size:10px;font-weight:700;line-height:1.2;text-transform:uppercase;letter-spacing:.04em}
+.kmla-category{display:inline-block;margin:0 0 8px;padding:3px 7px;border-radius:999px;background:var(--kmla-title);color:#fff;font-size:9px;font-weight:600;line-height:1.2;text-transform:uppercase;letter-spacing:.05em}
 .kmla-title{margin:0 0 8px;color:var(--kmla-title);font-size:18px;font-weight:700;line-height:1.35;transition:color .2s ease}
 .kmla-card:hover .kmla-title{color:var(--kmla-accent)}
 .kmla-excerpt{margin:0 0 20px;color:var(--kmla-text);font-size:14px;line-height:1.6}
-.kmla-meta{display:flex;align-items:center;gap:8px;width:100%;margin-top:auto;padding-top:16px;border-top:1px solid var(--kmla-line);color:var(--kmla-muted);font-size:13px;line-height:1.4}
+.kmla-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;margin-top:auto;padding-top:16px;border-top:1px solid var(--kmla-line);color:var(--kmla-muted);font-size:13px;line-height:1.4}
+.kmla-date{white-space:nowrap}
+.kmla-more{display:inline-flex;align-items:center;gap:6px;margin-left:auto;padding:8px 14px;border-radius:999px;background:var(--kmla-accent);color:#fff;font-family:inherit;font-size:13px;font-weight:600;line-height:1;white-space:nowrap;transition:background-color .2s ease}
+.kmla-more svg{flex:0 0 auto;transition:transform .25s ease}
+.kmla-card:hover .kmla-more{background:var(--kmla-title)}
+.kmla-card:hover .kmla-more svg{transform:translateX(3px)}
 .kmla-meta-separator{width:3px;height:3px;border-radius:50%;background:currentColor}
 .kmla-load-wrap{display:flex;justify-content:center;margin-top:40px}
 .kmla-load-more{appearance:none;min-height:44px;padding:12px 28px;border:1px solid var(--kmla-accent);border-radius:999px;background:transparent;color:var(--kmla-accent);cursor:pointer;font-family:inherit;font-size:15px;font-weight:600;line-height:1.2;transition:background-color .2s ease,color .2s ease}
@@ -29,4 +34,4 @@
 .kmla-card.kmla-hidden{display:none}
 @media(max-width:1024px){.kmla-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.kmla-header{flex-direction:column;align-items:flex-start}.kmla-nav{justify-content:flex-start}}
 @media(max-width:767px){.kmla-grid{grid-template-columns:1fr;gap:20px}.kmla-header{margin-bottom:24px}.kmla-heading{white-space:normal}.kmla-nav{flex-wrap:nowrap;width:100%;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}.kmla-nav::-webkit-scrollbar{display:none}.kmla-card-body{padding:16px 20px 20px}}
-@media(prefers-reduced-motion:reduce){.kmla-card,.kmla-image,.kmla-title,.kmla-nav-link,.kmla-load-more{transition:none}.kmla-card:hover{transform:none}.kmla-card:hover .kmla-image{transform:none}}
+@media(prefers-reduced-motion:reduce){.kmla-card,.kmla-image,.kmla-title,.kmla-nav-link,.kmla-load-more,.kmla-more,.kmla-more svg{transition:none}.kmla-card:hover .kmla-more svg{transform:none}.kmla-card:hover{transform:none}.kmla-card:hover .kmla-image{transform:none}}

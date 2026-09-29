@@ -3,7 +3,7 @@
  * Plugin Name:       Kirollos Magdy Portfolio Builder
  * Plugin URI:        https://wa.me/+201016324429
  * Description:       Portfolio toolkit for Elementor by Kirollos Magdy: a portfolio post type with categories, services and industries, 14 Elementor widgets, Mouse Effects, Floating Effects, Mouse Cursor and Cursor Trail panels in the Advanced tab of every element, the Kirollos Portfolio icon library, Elementor case-study pages for every project (Portfolios > Elementor Pages) and a blog article template.
- * Version:           3.9.2
+ * Version:           3.9.3
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Author:            Kirollos Magdy - WordPress Developer
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // No direct access.
 }
 
-define( 'KMPB_VERSION', '3.9.2' );
+define( 'KMPB_VERSION', '3.9.3' );
 define( 'KMPB_FILE', __FILE__ );
 define( 'KMPB_PATH', plugin_dir_path( __FILE__ ) );
 define( 'KMPB_URL', plugin_dir_url( __FILE__ ) );

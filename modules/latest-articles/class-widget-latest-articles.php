@@ -39,7 +39,21 @@ class Widget_Latest_Articles extends Widget_Base {
 	}
 
 	public function get_style_depends() {
-		return array( 'kmpb-latest-articles' );
+		return array( 'kmpb-latest-articles-font', 'kmpb-latest-articles' );
+	}
+
+	/**
+	 * Uncategorized (WordPress's default category) never appears in the navigation.
+	 *
+	 * @param int|\WP_Term $term Term ID or object.
+	 * @return bool
+	 */
+	private function is_excluded_term( $term ) {
+		$term = $term instanceof \WP_Term ? $term : get_term( (int) $term, 'category' );
+		if ( ! $term || is_wp_error( $term ) ) {
+			return true;
+		}
+		return 'uncategorized' === $term->slug || (int) get_option( 'default_category' ) === (int) $term->term_id;
 	}
 
 	public function get_script_depends() {
@@ -57,15 +71,21 @@ class Widget_Latest_Articles extends Widget_Base {
 		$options = array();
 		if ( ! is_wp_error( $terms ) ) {
 			foreach ( $terms as $term ) {
+				if ( $this->is_excluded_term( $term ) ) {
+					continue;
+				}
 				$options[ (string) $term->term_id ] = $term->name;
 			}
 		}
 		return $options;
 	}
 
+	/**
+	 * Nothing picked means every category (except Uncategorized), so new categories
+	 * show up without editing the widget.
+	 */
 	private function default_categories() {
-		$options = $this->get_category_options();
-		return array_slice( array_keys( $options ), 0, 4 );
+		return array();
 	}
 
 	protected function register_controls() {
@@ -97,7 +117,7 @@ class Widget_Latest_Articles extends Widget_Base {
 				'options'     => $this->get_category_options(),
 				'default'     => $this->default_categories(),
 				'label_block' => true,
-				'description' => esc_html__( 'Choose the categories shown in the top navigation and used to filter the articles.', 'kirollos-magdy-portfolio-builder' ),
+				'description' => esc_html__( 'Choose the categories shown in the top navigation and used to filter the articles. Leave empty to show every category. Uncategorized is always hidden.', 'kirollos-magdy-portfolio-builder' ),
 			)
 		);
 
@@ -192,6 +212,28 @@ class Widget_Latest_Articles extends Widget_Base {
 				'label'   => esc_html__( 'Load More Text', 'kirollos-magdy-portfolio-builder' ),
 				'type'    => Controls_Manager::TEXT,
 				'default' => esc_html__( 'Load more', 'kirollos-magdy-portfolio-builder' ),
+			)
+		);
+
+		$this->add_control(
+			'show_learn_more',
+			array(
+				'label'        => esc_html__( 'Show Learn More Button', 'kirollos-magdy-portfolio-builder' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => esc_html__( 'Show', 'kirollos-magdy-portfolio-builder' ),
+				'label_off'    => esc_html__( 'Hide', 'kirollos-magdy-portfolio-builder' ),
+				'return_value' => 'yes',
+				'default'      => 'yes',
+			)
+		);
+
+		$this->add_control(
+			'learn_more_text',
+			array(
+				'label'     => esc_html__( 'Learn More Text', 'kirollos-magdy-portfolio-builder' ),
+				'type'      => Controls_Manager::TEXT,
+				'default'   => esc_html__( 'Learn more', 'kirollos-magdy-portfolio-builder' ),
+				'condition' => array( 'show_learn_more' => 'yes' ),
 			)
 		);
 
@@ -597,7 +639,7 @@ class Widget_Latest_Articles extends Widget_Base {
 		return wp_trim_words( $text, max( 0, (int) $words ) );
 	}
 
-	private function card( $post_id, $selected_terms, $show_excerpt, $show_date, $excerpt_words ) {
+	private function card( $post_id, $selected_terms, $show_excerpt, $show_date, $excerpt_words, $learn_more = '' ) {
 		$post_terms = wp_get_post_categories( $post_id );
 		$matching = array_intersect( array_map( 'intval', $selected_terms ), array_map( 'intval', $post_terms ) );
 		if ( empty( $matching ) ) {
@@ -637,8 +679,15 @@ class Widget_Latest_Articles extends Widget_Base {
 					<?php if ( $show_excerpt ) : ?>
 						<p class="kmla-excerpt"><?php echo esc_html( $this->excerpt( $post_id, $excerpt_words ) ); ?></p>
 					<?php endif; ?>
-					<?php if ( $show_date ) : ?>
-						<div class="kmla-meta"><span><?php echo esc_html( get_the_date( '', $post_id ) ); ?></span></div>
+					<?php if ( $show_date || '' !== $learn_more ) : ?>
+						<div class="kmla-meta">
+							<?php if ( $show_date ) : ?>
+								<time class="kmla-date" datetime="<?php echo esc_attr( get_the_date( DATE_W3C, $post_id ) ); ?>"><?php echo esc_html( get_the_date( '', $post_id ) ); ?></time>
+							<?php endif; ?>
+							<?php if ( '' !== $learn_more ) : ?>
+								<span class="kmla-more"><?php echo esc_html( $learn_more ); ?> <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" focusable="false"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+							<?php endif; ?>
+						</div>
 					<?php endif; ?>
 				</div>
 			</a>
@@ -656,12 +705,21 @@ class Widget_Latest_Articles extends Widget_Base {
 		$load_count = max( 1, (int) ( $settings['load_count'] ?? 3 ) );
 		$excerpt_words = max( 0, (int) ( $settings['excerpt_words'] ?? 18 ) );
 
+		$selected = array_values( array_filter( $selected, function ( $term_id ) {
+			return ! $this->is_excluded_term( $term_id );
+		} ) );
+
 		if ( empty( $selected ) ) {
 			$terms = get_terms( array( 'taxonomy' => 'category', 'hide_empty' => true ) );
 			if ( ! is_wp_error( $terms ) ) {
-				$selected = array_map( 'intval', wp_list_pluck( array_slice( $terms, 0, 4 ), 'term_id' ) );
+				$terms    = array_filter( $terms, function ( $term ) {
+					return ! $this->is_excluded_term( $term );
+				} );
+				$selected = array_map( 'intval', wp_list_pluck( array_values( $terms ), 'term_id' ) );
 			}
 		}
+
+		$learn_more = 'yes' === ( $settings['show_learn_more'] ?? 'yes' ) ? trim( (string) ( $settings['learn_more_text'] ?? '' ) ) : '';
 
 		$query_args = array(
 			'post_type'           => 'post',
@@ -705,7 +763,8 @@ class Widget_Latest_Articles extends Widget_Base {
 						$selected,
 						'yes' === ( $settings['show_excerpt'] ?? 'yes' ),
 						'yes' === ( $settings['show_date'] ?? 'yes' ),
-						$excerpt_words
+						$excerpt_words,
+						$learn_more
 					);
 					if ( $html ) {
 						$rendered++;

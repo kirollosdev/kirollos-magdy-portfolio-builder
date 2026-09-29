@@ -24,7 +24,7 @@ final class KMPB_Latest_Articles {
 	const STYLE_OPTION = 'kmpb_latest_articles_style';
 
 	/** Current style update; bump to run a new one. */
-	const STYLE_VERSION = '3';
+	const STYLE_VERSION = '4';
 
 	public static function init() {
 		add_action( 'init', array( __CLASS__, 'migrate_widget_name' ), 20 );
@@ -35,6 +35,15 @@ final class KMPB_Latest_Articles {
 	}
 
 	public static function register_styles() {
+		// Montserrat for the widget's default typography; fonts picked in the widget's
+		// Typography controls are loaded by Elementor itself.
+		wp_register_style(
+			'kmpb-latest-articles-font',
+			'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap',
+			array(),
+			null
+		);
+
 		wp_register_style(
 			'kmpb-latest-articles',
 			plugins_url( 'assets/latest-articles.css', __FILE__ ),
@@ -92,6 +101,10 @@ final class KMPB_Latest_Articles {
 	}
 
 	/**
+	 * Style update 4: the widget uses Montserrat, the heading and navigation use the global
+	 * Primary colour, card titles and category badges use Secondary, and a stale automatic
+	 * category list that included Uncategorized is cleared.
+	 *
 	 * Style update 3: card titles use the global Secondary colour.
 	 *
 	 * Style update 2: the widget now uses Arial. Fonts picked in the widget's own Typography
@@ -146,8 +159,8 @@ final class KMPB_Latest_Articles {
 		foreach ( $elements as $i => $element ) {
 			if ( isset( $element['widgetType'] ) && 'kmpb-latest-articles' === $element['widgetType'] && ! empty( $element['settings'] ) && is_array( $element['settings'] ) ) {
 				foreach ( array_keys( $element['settings'] ) as $key ) {
-					if ( preg_match( '/_typography_font_family$/', $key ) && 'Arial' !== $element['settings'][ $key ] ) {
-						$elements[ $i ]['settings'][ $key ] = 'Arial';
+					if ( preg_match( '/_typography_font_family$/', $key ) && 'Montserrat' !== $element['settings'][ $key ] ) {
+						$elements[ $i ]['settings'][ $key ] = 'Montserrat';
 						$touched                            = true;
 					} elseif ( preg_match( '/^image_(height|fit)(_tablet|_mobile)?$/', $key ) ) {
 						unset( $elements[ $i ]['settings'][ $key ] );
@@ -155,16 +168,36 @@ final class KMPB_Latest_Articles {
 					}
 				}
 
-				// Title colour: point it at the global Secondary colour, replacing a saved
-				// global or custom colour.
+				// Colours: point each at a global colour, replacing a saved global or custom value.
+				$colors  = array(
+					'title_color'           => 'globals/colors?id=secondary',
+					'heading_color'         => 'globals/colors?id=primary',
+					'nav_color'             => 'globals/colors?id=primary',
+					'nav_border_color'      => 'globals/colors?id=primary',
+					'nav_active_background' => 'globals/colors?id=primary',
+					'nav_hover_background'  => 'globals/colors?id=primary',
+					'nav_hover_border'      => 'globals/colors?id=primary',
+					'category_background'   => 'globals/colors?id=secondary',
+				);
 				$globals = isset( $element['settings']['__globals__'] ) && is_array( $element['settings']['__globals__'] ) ? $element['settings']['__globals__'] : array();
-				if ( ! isset( $globals['title_color'] ) || 'globals/colors?id=secondary' !== $globals['title_color'] ) {
-					$globals['title_color']                    = 'globals/colors?id=secondary';
-					$elements[ $i ]['settings']['__globals__'] = $globals;
-					$touched                                   = true;
+				foreach ( $colors as $control => $global ) {
+					if ( ! isset( $globals[ $control ] ) || $global !== $globals[ $control ] ) {
+						$globals[ $control ] = $global;
+						$touched             = true;
+					}
+					if ( isset( $elements[ $i ]['settings'][ $control ] ) ) {
+						unset( $elements[ $i ]['settings'][ $control ] );
+						$touched = true;
+					}
 				}
-				if ( isset( $element['settings']['title_color'] ) ) {
-					unset( $elements[ $i ]['settings']['title_color'] );
+				$elements[ $i ]['settings']['__globals__'] = $globals;
+
+				// A saved category list that includes Uncategorized is the old automatic
+				// default (the first four categories). Clear it so the widget shows every
+				// category except Uncategorized.
+				$default_cat = (int) get_option( 'default_category' );
+				if ( ! empty( $element['settings']['categories'] ) && is_array( $element['settings']['categories'] ) && in_array( $default_cat, array_map( 'intval', $element['settings']['categories'] ), true ) ) {
+					unset( $elements[ $i ]['settings']['categories'] );
 					$touched = true;
 				}
 			}
