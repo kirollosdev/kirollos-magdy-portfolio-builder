@@ -6,7 +6,7 @@ Tags: elementor, portfolio, mouse effects, cursor, case study
 Requires at least: 6.0
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 3.9.0
+Stable tag: 3.9.1
 License: Proprietary. All rights reserved.
 
 Portfolio toolkit for Elementor: a portfolio post type, 14 widgets, interaction effects on every
@@ -79,6 +79,16 @@ property of their owners.
    or Latest Articles plugins, deactivate and delete them.
 
 == Changelog ==
+
+= 3.9.1 =
+* Latest Articles: redesigned to common web design standards. Covers fill the whole image
+  area at the blog cover ratio (1.91:1) with no placeholder band; the Image Height and
+  Thumbnail Image Fit settings are replaced by Image Aspect Ratio. Compact pill filters,
+  the section heading stays on one line, card titles are 18px, cards share the same height
+  with the date pinned to the bottom, and keyboard focus is visible.
+* Latest Articles now uses Arial. A one-time update switches any font saved in the widget's
+  Typography settings to Arial; colours and other saved settings are kept.
+* Case-study pages: related project cards show one screenshot instead of up to four.
 
 = 3.9.0 (merged build) =
 * Now includes three plugins that used to be separate. Deactivate and delete them after

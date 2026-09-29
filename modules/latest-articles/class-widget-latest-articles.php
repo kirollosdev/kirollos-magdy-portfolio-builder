@@ -240,7 +240,7 @@ class Widget_Latest_Articles extends Widget_Base {
 				'type'       => Controls_Manager::SLIDER,
 				'size_units' => array( 'px', 'em', 'rem' ),
 				'range'      => array( 'px' => array( 'min' => 0, 'max' => 60 ) ),
-				'default'    => array( 'unit' => 'px', 'size' => 18 ),
+				'default'    => array( 'unit' => 'px', 'size' => 8 ),
 				'selectors'  => array( '{{WRAPPER}} .kmla-nav' => 'gap: {{SIZE}}{{UNIT}};' ),
 			)
 		);
@@ -354,7 +354,7 @@ class Widget_Latest_Articles extends Widget_Base {
 				'type'       => Controls_Manager::SLIDER,
 				'size_units' => array( 'px', 'em', 'rem' ),
 				'range'      => array( 'px' => array( 'min' => 0, 'max' => 80 ) ),
-				'default'    => array( 'unit' => 'px', 'size' => 16 ),
+				'default'    => array( 'unit' => 'px', 'size' => 24 ),
 				'selectors'  => array( '{{WRAPPER}} .kmla-grid' => 'gap: {{SIZE}}{{UNIT}};' ),
 			)
 		);
@@ -403,32 +403,22 @@ class Widget_Latest_Articles extends Widget_Base {
 			)
 		);
 
+		// The image always fills its frame (object-fit: cover), so the ratio decides the shape.
+		// 1200 / 630 matches the blog covers exactly, so nothing is cropped by default.
 		$this->add_responsive_control(
-			'image_height',
+			'image_ratio',
 			array(
-				'label'      => esc_html__( 'Image Height', 'kirollos-magdy-portfolio-builder' ),
-				'type'       => Controls_Manager::SLIDER,
-				'size_units' => array( 'px', 'vh' ),
-				'range'      => array( 'px' => array( 'min' => 100, 'max' => 600 ) ),
-				'default'    => array( 'unit' => 'px', 'size' => 280 ),
-				'selectors'  => array( '{{WRAPPER}} .kmla-image-wrap' => 'height: {{SIZE}}{{UNIT}};' ),
-			)
-		);
-
-		$this->add_control(
-			'image_fit',
-			array(
-				'label'       => esc_html__( 'Thumbnail Image Fit', 'kirollos-magdy-portfolio-builder' ),
-				'type'        => Controls_Manager::SELECT,
-				'options'     => array(
-					'contain' => esc_html__( 'Fit / Contain', 'kirollos-magdy-portfolio-builder' ),
-					'cover'   => esc_html__( 'Cover', 'kirollos-magdy-portfolio-builder' ),
+				'label'   => esc_html__( 'Image Aspect Ratio', 'kirollos-magdy-portfolio-builder' ),
+				'type'    => Controls_Manager::SELECT,
+				'options' => array(
+					'1200 / 630' => esc_html__( 'Blog cover (1.91:1)', 'kirollos-magdy-portfolio-builder' ),
+					'16 / 9'     => '16:9',
+					'3 / 2'      => '3:2',
+					'4 / 3'      => '4:3',
+					'1 / 1'      => '1:1',
 				),
-				'default'     => 'contain',
-				'description' => esc_html__( 'Choose whether the full thumbnail is visible or the image fills the thumbnail area and may be cropped.', 'kirollos-magdy-portfolio-builder' ),
-				'selectors'   => array(
-					'{{WRAPPER}} .kmla-image' => 'object-fit: {{VALUE}};',
-				),
+				'default'   => '1200 / 630',
+				'selectors' => array( '{{WRAPPER}} .kmla-image-wrap' => 'aspect-ratio: {{VALUE}};' ),
 			)
 		);
 
@@ -607,7 +597,7 @@ class Widget_Latest_Articles extends Widget_Base {
 		return wp_trim_words( $text, max( 0, (int) $words ) );
 	}
 
-	private function card( $post_id, $selected_terms, $show_excerpt, $show_date, $excerpt_words, $image_fit = 'contain' ) {
+	private function card( $post_id, $selected_terms, $show_excerpt, $show_date, $excerpt_words ) {
 		$post_terms = wp_get_post_categories( $post_id );
 		$matching = array_intersect( array_map( 'intval', $selected_terms ), array_map( 'intval', $post_terms ) );
 		if ( empty( $matching ) ) {
@@ -629,9 +619,10 @@ class Widget_Latest_Articles extends Widget_Base {
 							$post_id,
 							'large',
 							array(
-								'class'   => 'kmla-image',
-								'loading' => 'lazy',
-								'style'   => 'object-fit:' . ( 'cover' === $image_fit ? 'cover' : 'contain' ) . ';object-position:center center;',
+								'class'    => 'kmla-image',
+								'loading'  => 'lazy',
+								'decoding' => 'async',
+								'sizes'    => '(max-width: 767px) 100vw, (max-width: 1024px) 50vw, 400px',
 							)
 						); ?>
 					<?php else : ?>
@@ -664,7 +655,6 @@ class Widget_Latest_Articles extends Widget_Base {
 		$initial = max( 1, (int) ( $settings['initial_visible'] ?? 6 ) );
 		$load_count = max( 1, (int) ( $settings['load_count'] ?? 3 ) );
 		$excerpt_words = max( 0, (int) ( $settings['excerpt_words'] ?? 18 ) );
-		$image_fit = isset( $settings['image_fit'] ) && 'cover' === $settings['image_fit'] ? 'cover' : 'contain';
 
 		if ( empty( $selected ) ) {
 			$terms = get_terms( array( 'taxonomy' => 'category', 'hide_empty' => true ) );
@@ -715,8 +705,7 @@ class Widget_Latest_Articles extends Widget_Base {
 						$selected,
 						'yes' === ( $settings['show_excerpt'] ?? 'yes' ),
 						'yes' === ( $settings['show_date'] ?? 'yes' ),
-						$excerpt_words,
-						$image_fit
+						$excerpt_words
 					);
 					if ( $html ) {
 						$rendered++;

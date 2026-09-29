@@ -120,7 +120,8 @@ add_shortcode(
 			$link                 = get_permalink( $item );
 			$title                = get_the_title( $item );
 			list( $logo, $shots ) = kmpp_project_images( $item );
-			$shots                = array_slice( $shots, 0, count( $shots ) >= 4 ? 4 : min( 2, count( $shots ) ) );
+			// One screenshot per card, the first in the gallery order, so the cards stay clean.
+			$shots                = array_slice( $shots, 0, 1 );
 			$website              = kmpp_project_url( $item->ID );
 			$date                 = kmpp_project_date( $item->ID );
 			$terms                = array_merge( kmpp_term_names( $item->ID, 'portfolio_industry' ), kmpp_term_names( $item->ID, 'portfolio_service' ) );
