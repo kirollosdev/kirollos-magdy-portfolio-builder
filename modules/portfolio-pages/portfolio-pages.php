@@ -3,7 +3,7 @@
  * Portfolio Pages module (formerly the standalone "KM Portfolio Pages" plugin, v2.2.3).
  *
  * Builds an Elementor case-study page for every Portfolio project from the project's own title,
- * excerpt, content, logo, gallery, website link, date and terms. Go to Portfolios > Elementor Pages.
+ * excerpt, content, logo, gallery, website link, date and terms. Go to Kirollos Magdy > Case-Study Pages.
  * Loaded by the main plugin file, which also owns this module's activation and deactivation hooks.
  *
  * @package KM_Portfolio_Pages
@@ -1097,15 +1097,15 @@ function kmpp_restore_page( $post_id ) {
 }
 
 /*
- * Admin screen: Portfolios → Elementor Pages.
+ * Admin screen: Kirollos Magdy > Case-Study Pages.
  */
 add_action(
 	'admin_menu',
 	static function () {
 		add_submenu_page(
-			'edit.php?post_type=' . KMPP_POST_TYPE,
-			__( 'Elementor Pages', 'km-portfolio-pages' ),
-			__( 'Elementor Pages', 'km-portfolio-pages' ),
+			defined( 'KMPB_ADMIN_MENU' ) ? KMPB_ADMIN_MENU : 'edit.php?post_type=' . KMPP_POST_TYPE,
+			__( 'Case-Study Pages', 'km-portfolio-pages' ),
+			__( 'Case-Study Pages', 'km-portfolio-pages' ),
 			'edit_others_posts',
 			'kmpp',
 			'kmpp_render_admin'
@@ -1147,13 +1147,12 @@ add_action(
 		wp_safe_redirect(
 			add_query_arg(
 				array(
-					'post_type' => KMPP_POST_TYPE,
 					'page'      => 'kmpp',
 					'kmpp_done' => $done,
 					'kmpp_skip' => $skipped,
 					'kmpp_act'  => $do,
 				),
-				admin_url( 'edit.php' )
+				admin_url( 'admin.php' )
 			)
 		);
 		exit;
@@ -1172,7 +1171,7 @@ function kmpp_render_admin() {
 	);
 	?>
 	<div class="wrap">
-		<h1><?php esc_html_e( 'Portfolio Elementor Pages', 'km-portfolio-pages' ); ?></h1>
+		<h1><?php esc_html_e( 'Case-Study Pages', 'km-portfolio-pages' ); ?></h1>
 		<p><?php esc_html_e( 'Builds an Elementor case-study page for each project from its title, excerpt, logo, gallery, website link, date, categories, services, industries and its Challenge / Solution / Result content. It also fills an empty Yoast meta description from the excerpt and empty image alt text. Post status is not changed: drafts stay drafts.', 'km-portfolio-pages' ); ?></p>
 
 		<?php if ( isset( $_GET['kmpp_done'] ) ) : ?>

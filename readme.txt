@@ -6,7 +6,7 @@ Tags: elementor, portfolio, mouse effects, cursor, case study
 Requires at least: 6.0
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 3.9.3
+Stable tag: 3.9.4
 License: Proprietary. All rights reserved.
 
 Portfolio toolkit for Elementor: a portfolio post type, 14 widgets, interaction effects on every
@@ -47,7 +47,7 @@ Touch devices and visitors who prefer reduced motion are respected.
 
 = Case-study pages =
 
-**Portfolios > Elementor Pages** builds an Elementor case-study page for each project from its
+**Kirollos Magdy > Case-Study Pages** builds an Elementor case-study page for each project from its
 title, excerpt, content, logo, screenshots, website link, date and terms. Pages stay fully
 editable in Elementor. A hand-made layout is backed up before it is replaced, and **Undo**
 restores it. Empty Yoast meta descriptions and image alt text are filled in, never overwritten.
@@ -79,6 +79,17 @@ property of their owners.
    or Latest Articles plugins, deactivate and delete them.
 
 == Changelog ==
+
+= 3.9.4 =
+* New "Kirollos Magdy" admin menu, with the Kirollos Magdy logo, that holds everything in one
+  place: an Overview page, Projects, Add New Project, Categories, Services, Industries,
+  Case-Study Pages, and, when Kirollos Magdy Portfolio Importer is active, Portfolio Import and
+  Blog Importer. The Overview also explains where the widgets, effects and icons live in
+  Elementor. The separate Portfolios menu is gone; its screens are inside this menu.
+* Latest Articles: cards now match the portfolio cards (header row with the category pill and
+  reading time, cover image, dark title, muted excerpt, Learn more button and date). A
+  one-time update clears the saved title, category and date colours so the new styles apply.
+* Latest Articles: listed under the "Kirollos Magdy" widget category in Elementor.
 
 = 3.9.3 =
 * Latest Articles: Montserrat font. A one-time update switches fonts saved in the widget's

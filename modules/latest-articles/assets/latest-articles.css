@@ -1,37 +1,51 @@
-.kmla{--kmla-accent:var(--e-global-color-primary,#9d00ff);--kmla-ink:#0b0b12;--kmla-title:var(--e-global-color-secondary,#6e00b3);--kmla-text:#4a5568;--kmla-muted:#718096;--kmla-line:#e4e9f0;width:100%;box-sizing:border-box;font-family:"Montserrat",Arial,Helvetica,sans-serif}
+/* Latest Articles. The cards match the portfolio cards (Portfolio Archive widget). */
+.kmla{--kmla-accent:var(--e-global-color-primary,#9d00ff);--kmla-text:#111111;--kmla-title:#1a202c;--kmla-muted:rgba(17,17,17,.55);--kmla-border:rgba(17,17,17,.1);--kmla-radius:14px;width:100%;box-sizing:border-box;color:var(--kmla-text);font-family:"Montserrat",Arial,Helvetica,sans-serif}
 .kmla *{box-sizing:border-box}
-.kmla-heading,.kmla-title,.kmla-excerpt,.kmla-category,.kmla-meta{font-family:inherit}
+.kmla-heading,.kmla-title,.kmla-excerpt,.kmla-category,.kmla-meta,.kmla-read{font-family:inherit}
+
+/* Header and category navigation */
 .kmla-header{display:flex;align-items:center;justify-content:space-between;gap:16px 32px;margin-bottom:32px}
 .kmla-heading{flex:0 0 auto;margin:0;color:var(--kmla-accent);line-height:1.2;white-space:nowrap}
 .kmla-nav{display:flex;flex:1 1 auto;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:8px}
 .kmla-nav-link{appearance:none;display:inline-flex;align-items:center;min-height:36px;margin:0;padding:8px 16px;border:1px solid currentColor;border-radius:999px;background:transparent;color:var(--kmla-accent);cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;line-height:1.2;white-space:nowrap;transition:background-color .2s ease,color .2s ease,border-color .2s ease}
-.kmla-nav-link.is-active{background:var(--kmla-accent);border-color:var(--kmla-accent);color:#fff}
-.kmla-nav-link:not(.is-active):hover{background:var(--kmla-accent);border-color:var(--kmla-accent);color:#fff}
-.kmla-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;align-items:stretch}
-.kmla-card{display:flex;flex-direction:column;overflow:hidden;background:#fff;border:1px solid var(--kmla-line);border-radius:16px;box-shadow:0 8px 24px rgba(11,11,18,.06);transition:transform .25s ease,box-shadow .25s ease}
-.kmla-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(11,11,18,.12)}
+.kmla-nav-link.is-active,.kmla-nav-link:not(.is-active):hover{background:var(--kmla-accent);border-color:var(--kmla-accent);color:#fff}
+
+/* Grid and card */
+.kmla-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;align-items:stretch}
+.kmla-card{display:flex;flex-direction:column;overflow:hidden;background:#fff;border:1px solid var(--kmla-border);border-radius:var(--kmla-radius);transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+.kmla-card:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--kmla-accent) 45%,var(--kmla-border));box-shadow:0 18px 40px -24px rgba(0,0,0,.45)}
 .kmla-card-link{display:flex;flex:1;flex-direction:column;color:inherit;text-decoration:none}
-.kmla-image-wrap{position:relative;flex:0 0 auto;width:100%;aspect-ratio:1200 / 630;overflow:hidden;background:var(--kmla-ink)}
+
+/* Header row: category pill and reading time, like the logo and site pill on project cards */
+.kmla-card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid var(--kmla-border)}
+.kmla-category{display:inline-flex;align-items:center;min-width:0;padding:6px 12px;border:1px solid color-mix(in srgb,var(--kmla-accent) 28%,transparent);border-radius:999px;background:color-mix(in srgb,var(--kmla-accent) 8%,transparent);color:var(--kmla-accent);font-size:12.5px;font-weight:600;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:background-color .2s ease,color .2s ease,border-color .2s ease}
+.kmla-card:hover .kmla-category{background:var(--kmla-accent);border-color:var(--kmla-accent);color:#fff}
+.kmla-read{flex:0 0 auto;margin-left:auto;color:var(--kmla-muted);font-size:13px;font-weight:600;line-height:1.2;white-space:nowrap}
+
+/* Image: fills its frame at the cover ratio */
+.kmla-image-wrap{position:relative;flex:0 0 auto;width:100%;aspect-ratio:1200 / 630;overflow:hidden;background:var(--kmla-border)}
 .kmla-image{display:block;width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .5s ease}
-.kmla-card:hover .kmla-image{transform:scale(1.03)}
+.kmla-card:hover .kmla-image{transform:scale(1.05)}
 .kmla-placeholder{width:100%;height:100%;background:linear-gradient(135deg,#3c0061,#0b0b12)}
-.kmla-card-body{display:flex;flex:1;flex-direction:column;align-items:flex-start;padding:20px 24px 24px}
-.kmla-category{display:inline-block;margin:0 0 8px;padding:3px 7px;border-radius:999px;background:var(--kmla-title);color:#fff;font-size:9px;font-weight:600;line-height:1.2;text-transform:uppercase;letter-spacing:.05em}
-.kmla-title{margin:0 0 8px;color:var(--kmla-title);font-size:18px;font-weight:700;line-height:1.35;transition:color .2s ease}
-.kmla-card:hover .kmla-title{color:var(--kmla-accent)}
-.kmla-excerpt{margin:0 0 20px;color:var(--kmla-text);font-size:14px;line-height:1.6}
-.kmla-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;margin-top:auto;padding-top:16px;border-top:1px solid var(--kmla-line);color:var(--kmla-muted);font-size:13px;line-height:1.4}
-.kmla-date{white-space:nowrap}
-.kmla-more{display:inline-flex;align-items:center;gap:6px;margin-left:auto;padding:8px 14px;border-radius:999px;background:var(--kmla-accent);color:#fff;font-family:inherit;font-size:13px;font-weight:600;line-height:1;white-space:nowrap;transition:background-color .2s ease}
-.kmla-more svg{flex:0 0 auto;transition:transform .25s ease}
-.kmla-card:hover .kmla-more{background:var(--kmla-title)}
-.kmla-card:hover .kmla-more svg{transform:translateX(3px)}
+
+/* Body */
+.kmla-card-body{display:flex;flex:1;flex-direction:column;align-items:flex-start;gap:8px;padding:18px 20px 20px}
+.kmla-title{margin:0;color:var(--kmla-title);font-size:19px;font-weight:700;line-height:1.3}
+.kmla-excerpt{margin:0;color:var(--kmla-muted);font-size:15px;line-height:1.55}
+.kmla-meta{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;margin-top:auto;padding-top:14px;color:var(--kmla-muted);font-size:13px;font-weight:600;line-height:1.2}
+.kmla-date{margin-left:auto;white-space:nowrap}
+.kmla-more{display:inline-flex;align-items:center;padding:10px 22px;border-radius:999px;background:var(--kmla-accent);color:#fff;font-family:inherit;font-size:14px;font-weight:600;line-height:1.3;white-space:nowrap;transition:filter .2s ease,transform .2s ease}
+.kmla-card:hover .kmla-more{filter:brightness(1.12);transform:translateY(-1px)}
 .kmla-meta-separator{width:3px;height:3px;border-radius:50%;background:currentColor}
+
+/* Load more */
 .kmla-load-wrap{display:flex;justify-content:center;margin-top:40px}
 .kmla-load-more{appearance:none;min-height:44px;padding:12px 28px;border:1px solid var(--kmla-accent);border-radius:999px;background:transparent;color:var(--kmla-accent);cursor:pointer;font-family:inherit;font-size:15px;font-weight:600;line-height:1.2;transition:background-color .2s ease,color .2s ease}
 .kmla-load-more:hover{background:var(--kmla-accent);color:#fff}
+
 .kmla-nav-link:focus-visible,.kmla-load-more:focus-visible,.kmla-card-link:focus-visible{outline:2px solid var(--kmla-accent);outline-offset:3px}
 .kmla-card.kmla-hidden{display:none}
+
 @media(max-width:1024px){.kmla-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.kmla-header{flex-direction:column;align-items:flex-start}.kmla-nav{justify-content:flex-start}}
-@media(max-width:767px){.kmla-grid{grid-template-columns:1fr;gap:20px}.kmla-header{margin-bottom:24px}.kmla-heading{white-space:normal}.kmla-nav{flex-wrap:nowrap;width:100%;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}.kmla-nav::-webkit-scrollbar{display:none}.kmla-card-body{padding:16px 20px 20px}}
-@media(prefers-reduced-motion:reduce){.kmla-card,.kmla-image,.kmla-title,.kmla-nav-link,.kmla-load-more,.kmla-more,.kmla-more svg{transition:none}.kmla-card:hover .kmla-more svg{transform:none}.kmla-card:hover{transform:none}.kmla-card:hover .kmla-image{transform:none}}
+@media(max-width:767px){.kmla-grid{grid-template-columns:1fr;gap:20px}.kmla-header{margin-bottom:24px}.kmla-heading{white-space:normal}.kmla-nav{flex-wrap:nowrap;width:100%;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}.kmla-nav::-webkit-scrollbar{display:none}}
+@media(prefers-reduced-motion:reduce){.kmla-card,.kmla-image,.kmla-nav-link,.kmla-load-more,.kmla-more,.kmla-category{transition:none}.kmla-card:hover,.kmla-card:hover .kmla-image,.kmla-card:hover .kmla-more{transform:none}}

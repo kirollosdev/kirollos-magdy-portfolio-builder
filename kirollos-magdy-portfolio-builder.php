@@ -2,8 +2,8 @@
 /**
  * Plugin Name:       Kirollos Magdy Portfolio Builder
  * Plugin URI:        https://wa.me/+201016324429
- * Description:       Portfolio toolkit for Elementor by Kirollos Magdy: a portfolio post type with categories, services and industries, 14 Elementor widgets, Mouse Effects, Floating Effects, Mouse Cursor and Cursor Trail panels in the Advanced tab of every element, the Kirollos Portfolio icon library, Elementor case-study pages for every project (Portfolios > Elementor Pages) and a blog article template.
- * Version:           3.9.3
+ * Description:       Portfolio toolkit for Elementor by Kirollos Magdy: a portfolio post type with categories, services and industries, 14 Elementor widgets, Mouse Effects, Floating Effects, Mouse Cursor and Cursor Trail panels in the Advanced tab of every element, the Kirollos Portfolio icon library, Elementor case-study pages for every project (Kirollos Magdy > Case-Study Pages) and a blog article template.
+ * Version:           3.9.4
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Author:            Kirollos Magdy - WordPress Developer
@@ -19,12 +19,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // No direct access.
 }
 
-define( 'KMPB_VERSION', '3.9.3' );
+define( 'KMPB_VERSION', '3.9.4' );
 define( 'KMPB_FILE', __FILE__ );
 define( 'KMPB_PATH', plugin_dir_path( __FILE__ ) );
 define( 'KMPB_URL', plugin_dir_url( __FILE__ ) );
 define( 'KMPB_AUTHOR', 'Kirollos Magdy - WordPress Developer' );
 define( 'KMPB_AUTHOR_URL', 'https://wa.me/+201016324429' );
+
+// Slug of the "Kirollos Magdy" admin menu. Kirollos Magdy Portfolio Importer attaches its
+// screens to it when this plugin is active.
+define( 'KMPB_ADMIN_MENU', 'kirollos-magdy' );
 
 /*
  * Guarded: the module declares its Module class with no
@@ -76,6 +80,9 @@ final class Kirollos_Magdy_Portfolio_Builder {
 
 		require_once KMPB_PATH . 'includes/class-portfolio-meta.php';
 		new KMPB_Portfolio_Meta();
+
+		require_once KMPB_PATH . 'includes/class-admin-menu.php';
+		new KMPB_Admin_Menu();
 
 		$this->load_portfolio_module();
 		$this->load_merged_modules();

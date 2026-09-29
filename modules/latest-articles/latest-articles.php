@@ -24,7 +24,7 @@ final class KMPB_Latest_Articles {
 	const STYLE_OPTION = 'kmpb_latest_articles_style';
 
 	/** Current style update; bump to run a new one. */
-	const STYLE_VERSION = '4';
+	const STYLE_VERSION = '5';
 
 	public static function init() {
 		add_action( 'init', array( __CLASS__, 'migrate_widget_name' ), 20 );
@@ -101,6 +101,9 @@ final class KMPB_Latest_Articles {
 	}
 
 	/**
+	 * Style update 5: the cards match the portfolio cards, so the saved title, category and
+	 * date colours are cleared and the card styles take over.
+	 *
 	 * Style update 4: the widget uses Montserrat, the heading and navigation use the global
 	 * Primary colour, card titles and category badges use Secondary, and a stale automatic
 	 * category list that included Uncategorized is cleared.
@@ -168,22 +171,32 @@ final class KMPB_Latest_Articles {
 					}
 				}
 
-				// Colours: point each at a global colour, replacing a saved global or custom value.
+				// Colours: heading and navigation follow the global Primary colour. The card
+				// colours are cleared so the portfolio-card styles apply.
 				$colors  = array(
-					'title_color'           => 'globals/colors?id=secondary',
 					'heading_color'         => 'globals/colors?id=primary',
 					'nav_color'             => 'globals/colors?id=primary',
 					'nav_border_color'      => 'globals/colors?id=primary',
 					'nav_active_background' => 'globals/colors?id=primary',
 					'nav_hover_background'  => 'globals/colors?id=primary',
 					'nav_hover_border'      => 'globals/colors?id=primary',
-					'category_background'   => 'globals/colors?id=secondary',
 				);
+				$clear   = array( 'title_color', 'category_color', 'category_background', 'meta_color', 'excerpt_color' );
 				$globals = isset( $element['settings']['__globals__'] ) && is_array( $element['settings']['__globals__'] ) ? $element['settings']['__globals__'] : array();
 				foreach ( $colors as $control => $global ) {
 					if ( ! isset( $globals[ $control ] ) || $global !== $globals[ $control ] ) {
 						$globals[ $control ] = $global;
 						$touched             = true;
+					}
+					if ( isset( $elements[ $i ]['settings'][ $control ] ) ) {
+						unset( $elements[ $i ]['settings'][ $control ] );
+						$touched = true;
+					}
+				}
+				foreach ( $clear as $control ) {
+					if ( isset( $globals[ $control ] ) ) {
+						unset( $globals[ $control ] );
+						$touched = true;
 					}
 					if ( isset( $elements[ $i ]['settings'][ $control ] ) ) {
 						unset( $elements[ $i ]['settings'][ $control ] );

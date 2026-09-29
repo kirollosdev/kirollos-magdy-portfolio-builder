@@ -31,7 +31,7 @@ class Widget_Latest_Articles extends Widget_Base {
 	}
 
 	public function get_categories() {
-		return array( 'general' );
+		return array( 'kmpb' );
 	}
 
 	public function get_keywords() {
@@ -651,10 +651,25 @@ class Widget_Latest_Articles extends Widget_Base {
 		$term_name = ( $term && ! is_wp_error( $term ) ) ? $term->name : '';
 		$term_ids = implode( ',', array_map( 'intval', $post_terms ) );
 
+		$minutes = max( 1, (int) ceil( str_word_count( wp_strip_all_tags( get_post_field( 'post_content', $post_id ) ) ) / 220 ) );
+
+		// Same structure as the portfolio cards: header row, image, body, footer with the
+		// call to action on the left and the date on the right.
 		ob_start();
 		?>
 		<article class="kmla-card" data-categories="<?php echo esc_attr( $term_ids ); ?>">
 			<a class="kmla-card-link" href="<?php echo esc_url( get_permalink( $post_id ) ); ?>">
+				<div class="kmla-card-head">
+					<?php if ( $term_name ) : ?>
+						<span class="kmla-category"><?php echo esc_html( $term_name ); ?></span>
+					<?php endif; ?>
+					<span class="kmla-read">
+						<?php
+						/* translators: %d: minutes */
+						echo esc_html( sprintf( _n( '%d min read', '%d min read', $minutes, 'kirollos-magdy-portfolio-builder' ), $minutes ) );
+						?>
+					</span>
+				</div>
 				<div class="kmla-image-wrap">
 					<?php if ( has_post_thumbnail( $post_id ) ) : ?>
 						<?php echo get_the_post_thumbnail(
@@ -664,7 +679,7 @@ class Widget_Latest_Articles extends Widget_Base {
 								'class'    => 'kmla-image',
 								'loading'  => 'lazy',
 								'decoding' => 'async',
-								'sizes'    => '(max-width: 767px) 100vw, (max-width: 1024px) 50vw, 400px',
+								'sizes'    => '(max-width: 767px) 100vw, (max-width: 1024px) 50vw, 440px',
 							)
 						); ?>
 					<?php else : ?>
@@ -672,20 +687,17 @@ class Widget_Latest_Articles extends Widget_Base {
 					<?php endif; ?>
 				</div>
 				<div class="kmla-card-body">
-					<?php if ( $term_name ) : ?>
-						<span class="kmla-category"><?php echo esc_html( $term_name ); ?></span>
-					<?php endif; ?>
 					<h3 class="kmla-title"><?php echo esc_html( get_the_title( $post_id ) ); ?></h3>
 					<?php if ( $show_excerpt ) : ?>
 						<p class="kmla-excerpt"><?php echo esc_html( $this->excerpt( $post_id, $excerpt_words ) ); ?></p>
 					<?php endif; ?>
 					<?php if ( $show_date || '' !== $learn_more ) : ?>
 						<div class="kmla-meta">
+							<?php if ( '' !== $learn_more ) : ?>
+								<span class="kmla-more"><?php echo esc_html( $learn_more ); ?></span>
+							<?php endif; ?>
 							<?php if ( $show_date ) : ?>
 								<time class="kmla-date" datetime="<?php echo esc_attr( get_the_date( DATE_W3C, $post_id ) ); ?>"><?php echo esc_html( get_the_date( '', $post_id ) ); ?></time>
-							<?php endif; ?>
-							<?php if ( '' !== $learn_more ) : ?>
-								<span class="kmla-more"><?php echo esc_html( $learn_more ); ?> <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" focusable="false"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
 							<?php endif; ?>
 						</div>
 					<?php endif; ?>

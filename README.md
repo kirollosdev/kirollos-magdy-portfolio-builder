@@ -34,7 +34,7 @@ Added to the **Advanced** tab of every Elementor section, column, container and 
 For visitors who prefer reduced motion, floating and cursor trails switch off and mouse-effect transitions are removed. Custom cursors only run on devices with a precise pointer.
 
 ### Case-study page generator
-**Portfolios > Elementor Pages** turns each project into a full Elementor case-study page, built from its title, excerpt, content, logo, screenshots, website link, date and terms. The result stays fully editable in Elementor. A hand-made layout is backed up before it is replaced and can be restored with one click. Empty Yoast meta descriptions and image alt text are filled in, never overwritten.
+**Kirollos Magdy > Case-Study Pages** turns each project into a full Elementor case-study page, built from its title, excerpt, content, logo, screenshots, website link, date and terms. The result stays fully editable in Elementor. A hand-made layout is backed up before it is replaced and can be restored with one click. Empty Yoast meta descriptions and image alt text are filled in, never overwritten.
 
 ![Generated case-study page](.github/screenshots/case-study.png)
 
