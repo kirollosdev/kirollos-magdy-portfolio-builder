@@ -515,7 +515,7 @@
 
 .kmbt-card__media {
 	display: block;
-	aspect-ratio: 16 / 10;
+	aspect-ratio: 1200 / 630; /* The blog cover size, so covers are never cropped. */
 	overflow: hidden;
 	background: var(--kmbt-line);
 }

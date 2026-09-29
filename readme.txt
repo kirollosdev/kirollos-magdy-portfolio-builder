@@ -6,7 +6,7 @@ Tags: elementor, portfolio, mouse effects, cursor, case study
 Requires at least: 6.0
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 3.9.4
+Stable tag: 3.9.5
 License: Proprietary. All rights reserved.
 
 Portfolio toolkit for Elementor: a portfolio post type, 14 widgets, interaction effects on every
@@ -79,6 +79,12 @@ property of their owners.
    or Latest Articles plugins, deactivate and delete them.
 
 == Changelog ==
+
+= 3.9.5 =
+* Blog article template: "More articles" covers show in full at the cover ratio (1.91:1)
+  instead of being cropped on the sides.
+* Blog article template: the author is shown by First Name and Last Name from the profile,
+  falling back to the display name, so the username never appears.
 
 = 3.9.4 =
 * New "Kirollos Magdy" admin menu, with the Kirollos Magdy logo, that holds everything in one

@@ -91,6 +91,15 @@ add_filter(
  * Helpers used by the template.
  */
 
+/**
+ * The author's full name from their profile (First Name + Last Name), falling back to the
+ * display name when both are empty, so the username never shows on articles.
+ */
+function kmbt_author_name( $user_id ) {
+	$name = trim( get_the_author_meta( 'first_name', $user_id ) . ' ' . get_the_author_meta( 'last_name', $user_id ) );
+	return '' !== $name ? $name : get_the_author_meta( 'display_name', $user_id );
+}
+
 function kmbt_reading_minutes( $post ) {
 	$words = str_word_count( wp_strip_all_tags( strip_shortcodes( $post->post_content ) ) );
 	return max( 1, (int) ceil( $words / 220 ) );

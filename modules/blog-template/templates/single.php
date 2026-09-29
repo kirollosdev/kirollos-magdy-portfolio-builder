@@ -52,7 +52,7 @@ while ( have_posts() ) :
 						<div class="kmbt-meta__text">
 							<span class="kmbt-meta__author">
 								<?php esc_html_e( 'By', 'km-blog-template' ); ?>
-								<a href="<?php echo esc_url( get_author_posts_url( $kmbt_author ) ); ?>" rel="author"><?php echo esc_html( get_the_author() ); ?></a>
+								<a href="<?php echo esc_url( get_author_posts_url( $kmbt_author ) ); ?>" rel="author"><?php echo esc_html( kmbt_author_name( $kmbt_author ) ); ?></a>
 							</span>
 							<span class="kmbt-meta__row">
 								<?php if ( $kmbt_updated ) : ?>
@@ -136,7 +136,7 @@ while ( have_posts() ) :
 							<?php echo get_avatar( $kmbt_author, 88, '', '', array( 'class' => 'kmbt-author__avatar' ) ); ?>
 							<div class="kmbt-author__body">
 								<span class="kmbt-label"><?php esc_html_e( 'Written by', 'km-blog-template' ); ?></span>
-								<p class="kmbt-author__name"><?php echo esc_html( get_the_author() ); ?></p>
+								<p class="kmbt-author__name"><?php echo esc_html( kmbt_author_name( $kmbt_author ) ); ?></p>
 								<?php
 								$kmbt_bio = get_the_author_meta( 'description', $kmbt_author );
 								if ( $kmbt_bio ) :
