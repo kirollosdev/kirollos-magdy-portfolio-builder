@@ -144,7 +144,6 @@ while ( have_posts() ) :
 									<p class="kmbt-author__bio"><?php echo esc_html( $kmbt_bio ); ?></p>
 								<?php endif; ?>
 								<p class="kmbt-author__links">
-									<a href="<?php echo esc_url( home_url( '/about/' ) ); ?>"><?php esc_html_e( 'More about me', 'km-blog-template' ); ?></a>
 									<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>"><?php esc_html_e( 'Work with me', 'km-blog-template' ); ?></a>
 								</p>
 							</div>
