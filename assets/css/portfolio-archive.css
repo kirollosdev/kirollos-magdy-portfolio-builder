@@ -297,7 +297,12 @@
 	scroll-behavior: smooth;
 	scrollbar-width: none;
 	-webkit-overflow-scrolling: touch;
-	padding-bottom: 2px;
+	/* A scrolling track clips on both axes, which cut off the card hover (4px lift, purple
+	   border and shadow). Room for it is padded in, and the negative margins cancel the
+	   padding so the cards keep the same width and position. */
+	padding: 8px 16px 40px;
+	margin: -8px -16px -38px;
+	scroll-padding-inline: 16px;
 }
 
 .kmpb-pa--slider .kmpb-pa__grid::-webkit-scrollbar {
